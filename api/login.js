@@ -9,8 +9,8 @@ export default async function handler(req, res) {
         const { username, password } = req.body;
 
         // Ambil dari Environment Variables (Vercel) atau gunakan kredensial default ini
-        const ADMIN_USER = process.env.ADMIN_USER || "admin";
-        const ADMIN_PASS = process.env.ADMIN_PASS || "sabhara123";
+        const ADMIN_USER = process.env.ADMIN_USER || "kapusdik";
+        const ADMIN_PASS = process.env.ADMIN_PASS || "kapusdikantisenggol";
 
         // Verifikasi Akun
         if (username === ADMIN_USER && password === ADMIN_PASS) {
