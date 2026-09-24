@@ -8,18 +8,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Font: Public Sans (Style Resmi Kedinasan) -->
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Public Sans', 'sans-serif'],
+                    },
                     colors: {
                         sabhara: {
-                            red: '#b91c1c',
-                            darkred: '#7f1d1d',
-                            gold: '#f59e0b',
-                            dark: '#0f172a'
+                            red: '#8B0000',
+                            brightred: '#A70000',
+                            gold: '#C59B27',
+                            dark: '#121212',
+                            panel: '#1A1A1A',
+                            border: '#2E2E2E'
                         }
                     }
                 }
@@ -27,352 +33,555 @@
         }
     </script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .sabhara-bg { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 35%, #450a0a 100%); }
+        body { font-family: 'Public Sans', sans-serif; background-color: #121212; color: #E0E0E0; }
+        .hero-overlay { background: linear-gradient(180deg, rgba(18, 18, 18, 0.85) 0%, rgba(18, 18, 18, 0.95) 100%); }
+        .official-border { border-top: 3px solid #C59B27; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col">
 
-    <!-- ANNOUNCEMENT BAR -->
-    <div class="bg-red-900 border-b border-red-700/50 text-white text-xs py-2 px-4 flex justify-between items-center">
-        <div class="flex items-center space-x-2 max-w-5xl mx-auto w-full">
-            <span class="bg-amber-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">INFORMASI CASIS</span>
-            <marquee class="w-full text-xs font-medium text-slate-200">
-                Penerimaan Casis Korps Sabhara Baharkam Polri RBX: Tiket Pendaftaran dibuka via Discord Resmi. Setelah membuka tiket, silakan lakukan pengisian G-Form dan pantau kelulusan berkala di portal ini!
-            </marquee>
+    <!-- TOP HEADER / INSTANT BAR -->
+    <div class="bg-sabhara-red text-white text-xs font-semibold py-1.5 px-4 border-b border-amber-600">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <span class="bg-black text-amber-400 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">PENGUMUMAN</span>
+                <span class="text-slate-200">Pendaftaran BGC dan Seleksi Penerimaan Casis Sabhara Gelombang Aktif Dibuka!</span>
+            </div>
+            <div class="flex items-center gap-4 text-[11px] text-slate-300">
+                <!-- GANTI LINK GOOGLE FORM ANDA DI SINI -->
+                <a href="https://forms.google.com" target="_blank" class="text-amber-300 font-bold hover:underline flex items-center gap-1">
+                    <i class="fas fa-file-pen"></i> Link Formulir (G-Form)
+                </a>
+                <span>|</span>
+                <span><i class="fab fa-discord text-indigo-300 mr-1"></i> Discord Official</span>
+            </div>
         </div>
     </div>
 
-    <!-- NAVBAR -->
-    <nav class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+    <!-- MAIN NAVBAR -->
+    <nav class="bg-sabhara-panel border-b border-sabhara-border sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <!-- Logo & Title -->
+                <!-- Brand / Logo -->
                 <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-red-800 border-2 border-amber-400 rounded-lg flex items-center justify-center shadow-lg">
-                        <i class="fas fa-shield-halved text-amber-400 text-2xl"></i>
+                    <div class="w-12 h-12 bg-black border-2 border-sabhara-gold rounded flex items-center justify-center p-1">
+                        <i class="fas fa-shield-halved text-sabhara-gold text-2xl"></i>
                     </div>
                     <div>
-                        <h1 class="font-extrabold text-base sm:text-lg tracking-wider text-amber-400 leading-tight">PUSDIKLAT KORPS SABHARA</h1>
-                        <p class="text-[10px] sm:text-xs text-slate-400 tracking-widest uppercase">BAHARKAM POLRI ROBLOX</p>
+                        <h1 class="font-extrabold text-base sm:text-lg tracking-wider text-white uppercase leading-tight">PUSDIKLAT KORPS SABHARA</h1>
+                        <p class="text-[10px] text-sabhara-gold tracking-widest font-semibold uppercase">BAHARKAM POLRI ROBLOX</p>
                     </div>
                 </div>
 
-                <!-- Desktop Nav -->
-                <div class="hidden lg:flex items-center space-x-6 text-xs font-bold uppercase tracking-wider">
-                    <a href="#informasi" class="hover:text-amber-400 transition">Informasi Umum</a>
-                    <a href="#kalender" class="hover:text-amber-400 transition">Kalender Pendidikan</a>
-                    <a href="#cek-gform" class="hover:text-amber-400 transition">Cek Kelulusan G-Form</a>
-                    <a href="#pantukhir" class="bg-red-800 hover:bg-red-700 border border-amber-500 text-white px-4 py-2 rounded-lg transition flex items-center gap-2 shadow-md">
-                        <i class="fas fa-user-check text-amber-400"></i> Hasil Pantukhir
+                <!-- Nav Menu Desktop -->
+                <div class="hidden lg:flex items-center space-x-5 text-xs font-bold uppercase tracking-wider">
+                    <a href="#profil" class="text-slate-300 hover:text-sabhara-gold transition">Profil</a>
+                    <a href="#tahapan" class="text-slate-300 hover:text-sabhara-gold transition">Tahapan</a>
+                    <a href="#kalender" class="text-slate-300 hover:text-sabhara-gold transition">Kalender</a>
+                    <a href="#cek-status" class="text-slate-300 hover:text-sabhara-gold transition">Cek Status G-Form</a>
+                    <a href="#galeri" class="text-slate-300 hover:text-sabhara-gold transition">Galeri</a>
+                    
+                    <!-- TOMBOL NGISI G-FORM (DIRECT LINK) -->
+                    <!-- GANTI LINK GOOGLE FORM ANDA PADA HREF -->
+                    <a href="https://forms.google.com" target="_blank" class="bg-sabhara-gold hover:bg-amber-600 text-black px-3 py-2 rounded font-extrabold border border-amber-400 transition flex items-center gap-1.5 shadow">
+                        <i class="fas fa-file-signature text-sm"></i> ISI G-FORM
+                    </a>
+
+                    <a href="#pantukhir" class="bg-sabhara-red hover:bg-sabhara-brightred text-white px-3 py-2 border border-sabhara-gold rounded transition">
+                        Pantukhir
                     </a>
                 </div>
 
-                <!-- Mobile Button -->
+                <!-- Mobile Menu Toggle -->
                 <div class="lg:hidden">
-                    <button id="menu-btn" class="text-slate-300 text-2xl focus:outline-none">
+                    <button id="menu-btn" class="text-slate-300 text-2xl p-2 focus:outline-none">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-slate-900 border-t border-slate-800 px-4 py-4 space-y-3 text-xs font-bold uppercase">
-            <a href="#informasi" class="block text-slate-200">Informasi Umum</a>
-            <a href="#kalender" class="block text-slate-200">Kalender Pendidikan</a>
-            <a href="#cek-gform" class="block text-slate-200">Cek Kelulusan G-Form</a>
-            <a href="#pantukhir" class="block text-amber-400">Hasil Pantukhir</a>
+        <!-- Mobile Navigation Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-sabhara-panel border-b border-sabhara-border px-4 py-3 space-y-2 text-xs font-bold uppercase">
+            <a href="#profil" class="block py-2 text-slate-300 border-b border-slate-800">Profil</a>
+            <a href="#tahapan" class="block py-2 text-slate-300 border-b border-slate-800">Tahapan Seleksi</a>
+            <a href="#kalender" class="block py-2 text-slate-300 border-b border-slate-800">Kalender</a>
+            <!-- GANTI LINK GOOGLE FORM ANDA PADA HREF -->
+            <a href="https://forms.google.com" target="_blank" class="block py-2 text-sabhara-gold font-extrabold border-b border-slate-800">
+                <i class="fas fa-file-pen mr-1"></i> ISI FORMULIR G-FORM
+            </a>
+            <a href="#cek-status" class="block py-2 text-slate-300 border-b border-slate-800">Cek Status G-Form</a>
+            <a href="#galeri" class="block py-2 text-slate-300 border-b border-slate-800">Galeri Kegiatan</a>
+            <a href="#pantukhir" class="block py-2 text-sabhara-red font-bold">Menu Pantukhir</a>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <header class="sabhara-bg border-b-4 border-amber-500 py-16 px-4 text-center relative overflow-hidden">
-        <div class="max-w-4xl mx-auto space-y-6 relative z-10">
-            <div class="inline-flex items-center gap-2 bg-slate-900/80 border border-amber-500/40 px-4 py-1.5 rounded-full text-amber-400 text-xs font-semibold uppercase tracking-widest shadow-md">
-                <i class="fas fa-star"></i> Portal Resmi Penerimaan & Seleksi Casis
+    <!-- HERO BANNER -->
+    <header class="relative bg-black text-white border-b-4 border-sabhara-gold min-h-[420px] flex items-center justify-center">
+        <div class="absolute inset-0 z-0 opacity-40 bg-cover bg-center" style="background-image: url('images/1000284934.png');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-sabhara-dark via-sabhara-dark/85 to-transparent z-0"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 py-12 text-center space-y-4">
+            <div class="inline-block bg-sabhara-red border border-sabhara-gold px-3 py-1 text-[11px] font-bold text-amber-300 uppercase tracking-widest mb-2">
+                Pusat Pendidikan & Pelatihan Samapta Bhayangkara
             </div>
-            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                PUSDIKLAT KORPS SABHARA <br/>
-                <span class="text-amber-400">BAHARKAM POLRI RBX</span>
+            <h2 class="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-white leading-tight">
+                PORTAL PENERIMAAN SELEKSI CASIS <br/>
+                <span class="text-sabhara-gold">KORPS SABHARA BAHARKAM POLRI</span>
             </h2>
-            <p class="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
-                Pusat Pendidikan dan Pelatihan Samapta Bhayangkara. Melaksanakan pembinaan keterampilan, kesamaptaan, serta seleksi calon siswa (Casis) Korps Sabhara.
+            <p class="text-slate-300 text-xs sm:text-sm max-w-3xl mx-auto leading-relaxed">
+                Sistem informasi terpadu pendaftaran, pengisian formulir G-Form, pengecekan kelulusan administrasi, tes kesamaptaan, hingga penetapan sidang Pantukhir.
             </p>
 
-            <!-- Action Buttons -->
-            <div class="flex flex-wrap justify-center gap-4 pt-4">
-                <a href="#cek-gform" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition shadow-lg flex items-center gap-2">
-                    <i class="fas fa-file-signature"></i> Cek Kelulusan G-Form
+            <div class="pt-4 flex flex-wrap justify-center gap-3">
+                <!-- TOMBOL UTAMA BUKA G-FORM -->
+                <!-- GANTI LINK GOOGLE FORM ANDA PADA HREF -->
+                <a href="https://forms.google.com" target="_blank" class="bg-sabhara-gold hover:bg-amber-600 text-black border border-amber-300 font-extrabold px-6 py-2.5 rounded text-xs uppercase tracking-wider transition shadow-lg flex items-center gap-2">
+                    <i class="fas fa-file-pen text-base"></i> ISI FORMULIR G-FORM
                 </a>
-                <a href="#pantukhir" class="bg-red-800 hover:bg-red-700 text-white border border-amber-500 font-extrabold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition shadow-lg flex items-center gap-2">
-                    <i class="fas fa-trophy text-amber-400"></i> Menu Pantukhir
+
+                <a href="#cek-status" class="bg-slate-800 hover:bg-slate-700 text-white border border-sabhara-border font-extrabold px-5 py-2.5 rounded text-xs uppercase tracking-wider transition flex items-center gap-2">
+                    <i class="fas fa-magnifying-glass"></i> Cek Status Hasil
+                </a>
+
+                <a href="#pantukhir" class="bg-sabhara-red hover:bg-sabhara-brightred text-white border border-sabhara-gold font-extrabold px-5 py-2.5 rounded text-xs uppercase tracking-wider transition flex items-center gap-2">
+                    <i class="fas fa-file-check"></i> Menu Pantukhir
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- INFORMASI UMUM SABHARA -->
-    <section id="informasi" class="py-16 px-4 max-w-5xl mx-auto w-full space-y-8">
-        <div class="text-center space-y-2">
-            <h3 class="text-2xl sm:text-3xl font-black text-amber-400 tracking-wider uppercase">INFORMASI UMUM SABHARA</h3>
-            <div class="w-24 h-1 bg-red-700 mx-auto rounded-full"></div>
-        </div>
+    <!-- MAIN CONTENT WRAPPER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16 flex-grow">
 
-        <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl relative overflow-hidden flex flex-col md:flex-row gap-6 items-center">
-            <div class="w-32 h-32 shrink-0 bg-red-900/30 border-2 border-amber-500/50 rounded-xl flex items-center justify-center text-amber-400">
-                <i class="fas fa-shield-cat text-6xl"></i>
-            </div>
-            <div class="space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed text-justify">
-                <p>
-                    <strong class="text-amber-400 font-bold">KORPS SABHARA BAHARKAM POLRI</strong> (Korps Sabhara Bhayangkara Badan Pemeliharaan Keamanan Kepolisian Republik Indonesia) merupakan sebuah korps yang berada di bawah Baharkam Polri, yang melaksanakan fungsi Samapta dan memiliki kewenangan tertentu.
-                </p>
-                <p>
-                    <strong class="text-white">Sabhara (Samapta Bhayangkara)</strong> adalah fungsi operasional kepolisian yang berperan dalam pemeliharaan keamanan dan ketertiban masyarakat (<span class="text-amber-400 font-semibold">Harkamtibmas</span>), serta pelaksanaan tugas-tugas preventif dan represif non-yustisial. Fungsi perlindungan, pengayoman, dan pelayanan kepada masyarakat.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- KALENDER & TAHAPAN PENDIDIKAN -->
-    <section id="kalender" class="py-16 px-4 bg-slate-900/50 border-y border-slate-800">
-        <div class="max-w-6xl mx-auto space-y-12">
-            <div class="text-center space-y-2">
-                <h3 class="text-2xl sm:text-3xl font-black text-amber-400 tracking-wider uppercase">KALENDER & TAHAPAN SELEKSI PENDIDIKAN</h3>
-                <p class="text-xs text-slate-400">Alur lengkap penerimaan Casis hingga dinyatakan lulus Pendidikan Pusdiklat Sabhara</p>
-            </div>
-
-            <!-- Flow Steps Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- SECTION INFORMASI UMUM SABHARA -->
+        <section id="profil" class="bg-sabhara-panel border border-sabhara-border rounded-lg p-6 sm:p-8 official-border shadow-lg">
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <div class="w-40 h-40 shrink-0 bg-black border-2 border-sabhara-gold rounded p-2 flex items-center justify-center">
+                    <i class="fas fa-shield text-sabhara-gold text-7xl"></i>
+                </div>
                 
-                <!-- Step 1 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-3 relative hover:border-amber-500 transition">
-                    <div class="flex justify-between items-center">
-                        <span class="w-8 h-8 bg-red-800 text-amber-400 rounded-lg flex items-center justify-center font-black text-sm">1</span>
-                        <span class="text-[10px] bg-slate-800 text-amber-400 px-2 py-0.5 rounded font-mono uppercase">TAHAP AWAL</span>
+                <div class="space-y-3">
+                    <div class="border-b border-sabhara-border pb-2">
+                        <h3 class="text-xl font-extrabold text-white uppercase tracking-wide">INFORMASI UMUM SABHARA</h3>
+                        <p class="text-xs text-sabhara-gold font-semibold">Korps Sabhara Baharkam Kepolisian Negara Republik Indonesia</p>
                     </div>
-                    <h4 class="font-bold text-base text-white">Administrasi (BGC)</h4>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed text-justify">
+                        <strong class="text-white">Korps Sabhara Bhayangkara Badan Pemeliharaan Keamanan Kepolisian Republik Indonesia</strong> atau disebut dengan <strong class="text-sabhara-gold">KORPS SABHARA BAHARKAM POLRI</strong>, merupakan sebuah korps yang di bawah Baharkam Polri, yang melaksanakan fungsi Samapta dan memiliki kewenangan tertentu.
+                    </p>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed text-justify">
+                        <strong class="text-white">Sabhara (Samapta Bhayangkara)</strong> adalah fungsi operasional kepolisian yang berperan dalam pemeliharaan keamanan dan ketertiban masyarakat (<strong class="text-sabhara-gold">Harkamtibmas</strong>), serta pelaksanaan tugas-tugas preventif dan represif non-yustisial.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION TAHAPAN SELEKSI CASIS -->
+        <section id="tahapan" class="space-y-6">
+            <div class="border-l-4 border-sabhara-red pl-4">
+                <h3 class="text-xl font-extrabold text-white uppercase tracking-wider">TAHAPAN SELEKSI CASIS SABHARA</h3>
+                <p class="text-xs text-slate-400">Urutan alur seleksi wajib yang harus dilalui oleh setiap Calon Siswa (Casis)</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                
+                <!-- Tahap 1 -->
+                <div class="bg-sabhara-panel border border-sabhara-border p-5 rounded space-y-2">
+                    <div class="flex justify-between items-center border-b border-sabhara-border pb-2">
+                        <span class="text-xs font-bold text-sabhara-gold">01. TAHAP AWAL</span>
+                        <i class="fas fa-id-card text-sabhara-red"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-white">Administrasi (BGC)</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Ini adalah tahap awal di mana casis melakukan administrasi BGC untuk mendaftar Sabhara melalui sistem pendaftaran / tiket Discord.
+                        Tahap awal di mana casis melakukan administrasi BGC untuk mendaftar Sabhara melalui tiket pendaftaran di Discord.
                     </p>
                 </div>
 
-                <!-- Step 2 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-3 relative hover:border-amber-500 transition">
-                    <div class="flex justify-between items-center">
-                        <span class="w-8 h-8 bg-red-800 text-amber-400 rounded-lg flex items-center justify-center font-black text-sm">2</span>
-                        <span class="text-[10px] bg-slate-800 text-amber-400 px-2 py-0.5 rounded font-mono uppercase">G-FORM</span>
+                <!-- Tahap 2 (Dengan Akses Tombol G-Form) -->
+                <div class="bg-sabhara-panel border-2 border-sabhara-gold p-5 rounded space-y-3">
+                    <div class="flex justify-between items-center border-b border-sabhara-border pb-2">
+                        <span class="text-xs font-bold text-sabhara-gold">02. FORMULIR</span>
+                        <i class="fas fa-file-pen text-sabhara-gold"></i>
                     </div>
-                    <h4 class="font-bold text-base text-white">Pengisian Formulir</h4>
+                    <h4 class="font-bold text-sm text-white">Pengisian Formulir (G-Form)</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Setelah lulus dari tahap BGC, casis diwajibkan untuk mengisi formulir (G-Form) resmi yang telah disediakan oleh Pusdiklat Sabhara.
+                        Setelah lulus tahap BGC, casis diwajibkan mengisi formulir resmi secara online.
+                    </p>
+                    <!-- GANTI LINK GOOGLE FORM ANDA PADA HREF -->
+                    <a href="https://forms.google.com" target="_blank" class="inline-block bg-sabhara-gold hover:bg-amber-600 text-black font-extrabold text-[11px] px-3 py-1.5 rounded uppercase tracking-wider transition">
+                        <i class="fas fa-external-link-alt mr-1"></i> Buka G-Form Pendaftaran
+                    </a>
+                </div>
+
+                <!-- Tahap 3 -->
+                <div class="bg-sabhara-panel border border-sabhara-border p-5 rounded space-y-2">
+                    <div class="flex justify-between items-center border-b border-sabhara-border pb-2">
+                        <span class="text-xs font-bold text-sabhara-gold">03. VERIFIKASI</span>
+                        <i class="fas fa-bullhorn text-sabhara-red"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-white">Pengumuman Formulir</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Pengumuman resmi casis yang lulus seleksi G-Form untuk berhak mengikuti wawancara lisan.
                     </p>
                 </div>
 
-                <!-- Step 3 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-3 relative hover:border-amber-500 transition">
-                    <div class="flex justify-between items-center">
-                        <span class="w-8 h-8 bg-red-800 text-amber-400 rounded-lg flex items-center justify-center font-black text-sm">3</span>
-                        <span class="text-[10px] bg-slate-800 text-amber-400 px-2 py-0.5 rounded font-mono uppercase">VERIFIKASI</span>
+                <!-- Tahap 4 -->
+                <div class="bg-sabhara-panel border border-sabhara-border p-5 rounded space-y-2">
+                    <div class="flex justify-between items-center border-b border-sabhara-border pb-2">
+                        <span class="text-xs font-bold text-sabhara-gold">04. TES LISAN</span>
+                        <i class="fas fa-comments text-sabhara-red"></i>
                     </div>
-                    <h4 class="font-bold text-base text-white">Pengumuman Berkas</h4>
+                    <h4 class="font-bold text-sm text-white">Tes Wawancara</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Pengumuman casis yang dinyatakan lulus seleksi formulir G-Form dan berhak melanjutkan ke tahap seleksi berikutnya.
+                        Casis diberikan pertanyaan dasar tentang pengetahuan Sabhara, mental, dan kedisiplinan.
                     </p>
                 </div>
 
-                <!-- Step 4 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-3 relative hover:border-amber-500 transition">
-                    <div class="flex justify-between items-center">
-                        <span class="w-8 h-8 bg-red-800 text-amber-400 rounded-lg flex items-center justify-center font-black text-sm">4</span>
-                        <span class="text-[10px] bg-slate-800 text-amber-400 px-2 py-0.5 rounded font-mono uppercase">WAWANCARA</span>
+                <!-- Tahap 5 -->
+                <div class="bg-sabhara-panel border border-sabhara-border p-5 rounded space-y-2">
+                    <div class="flex justify-between items-center border-b border-sabhara-border pb-2">
+                        <span class="text-xs font-bold text-sabhara-gold">05. KESAMAPTAAN</span>
+                        <i class="fas fa-person-swimming text-sabhara-red"></i>
                     </div>
-                    <h4 class="font-bold text-base text-white">Tes Wawancara</h4>
+                    <h4 class="font-bold text-sm text-white">Tes Fisik</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Di tes ini casis akan diberikan beberapa pertanyaan dasar tentang pengetahuan Sabhara, loyalitas, dan kesiapan kedinasan.
+                        Pengujian kemampuan fisik, perbarisan, dan ketahanan fisik untuk menjadi siswa Sabhara.
                     </p>
                 </div>
 
-                <!-- Step 5 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-3 relative hover:border-amber-500 transition">
-                    <div class="flex justify-between items-center">
-                        <span class="w-8 h-8 bg-red-800 text-amber-400 rounded-lg flex items-center justify-center font-black text-sm">5</span>
-                        <span class="text-[10px] bg-slate-800 text-amber-400 px-2 py-0.5 rounded font-mono uppercase">KESAMAPTAAN</span>
+                <!-- Tahap 6 -->
+                <div class="bg-sabhara-panel border border-sabhara-red p-5 rounded space-y-2">
+                    <div class="flex justify-between items-center border-b border-sabhara-border pb-2">
+                        <span class="text-xs font-extrabold text-sabhara-gold">06. SIDANG AKHIR</span>
+                        <i class="fas fa-trophy text-sabhara-gold"></i>
                     </div>
-                    <h4 class="font-bold text-base text-white">Tes Fisik</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Tahap ini casis sangat diuji kemampuannya (fisik & kesamaptaan) untuk menilai kelayakan menjadi siswa Pusdik Sabhara.
-                    </p>
-                </div>
-
-                <!-- Step 6 -->
-                <div class="bg-slate-900 border border-amber-500/50 p-6 rounded-xl space-y-3 relative hover:border-amber-400 transition bg-gradient-to-b from-slate-900 to-red-950/30">
-                    <div class="flex justify-between items-center">
-                        <span class="w-8 h-8 bg-amber-500 text-slate-950 rounded-lg flex items-center justify-center font-black text-sm">6</span>
-                        <span class="text-[10px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded font-mono uppercase">TAHAP AKHIR</span>
-                    </div>
-                    <h4 class="font-bold text-base text-amber-400">Pantukhir</h4>
+                    <h4 class="font-bold text-sm text-sabhara-gold uppercase">Pantukhir</h4>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        Tahap penentuan akhir di mana komando menentukan casis yang resmi lulus dan berhak mengikuti Pendidikan Sabhara.
+                        Penetapan akhir calon siswa yang dinyatakan resmi lulus untuk dilantik ke Pendidikan Sabhara.
                     </p>
                 </div>
 
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- SECTION CEK KELULUSAN G-FORM -->
-    <section id="cek-gform" class="py-16 px-4 max-w-4xl mx-auto w-full space-y-6">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
-            <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
-                <div class="w-10 h-10 bg-amber-500/10 text-amber-400 rounded-lg flex items-center justify-center text-xl">
-                    <i class="fas fa-file-check"></i>
+        <!-- SECTION KALENDER JADWAL -->
+        <section id="kalender" class="bg-sabhara-panel border border-sabhara-border rounded-lg p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-sabhara-border pb-3">
+                <h3 class="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <i class="fas fa-calendar-days text-sabhara-gold"></i> KALENDER JADWAL SELEKSI & PENDIDIKAN
+                </h3>
+                <span class="text-xs text-slate-400 font-mono">GELOMBANG 2026</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-black text-sabhara-gold border-b border-sabhara-border font-bold uppercase">
+                            <th class="p-3">Kegiatan</th>
+                            <th class="p-3">Tahapan</th>
+                            <th class="p-3">Akses Direct / Link</th>
+                            <th class="p-3">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-sabhara-border text-slate-300">
+                        <tr class="hover:bg-black/30">
+                            <td class="p-3 font-semibold text-white">Administrasi BGC</td>
+                            <td class="p-3"><span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded text-[10px]">Tahap 1</span></td>
+                            <td class="p-3"><span class="text-indigo-400 font-semibold"><i class="fab fa-discord"></i> Discord Ticket</span></td>
+                            <td class="p-3 text-slate-400">Verifikasi Berkas Awal</td>
+                        </tr>
+                        <tr class="hover:bg-black/30 bg-amber-950/20">
+                            <td class="p-3 font-semibold text-white">Pengisian Formulir (G-Form)</td>
+                            <td class="p-3"><span class="bg-sabhara-gold text-black font-bold px-2 py-0.5 rounded text-[10px]">Tahap 2</span></td>
+                            <td class="p-3">
+                                <!-- GANTI LINK GOOGLE FORM ANDA PADA HREF -->
+                                <a href="https://forms.google.com" target="_blank" class="text-sabhara-gold underline font-bold flex items-center gap-1">
+                                    <i class="fas fa-file-pen"></i> Isi Formulir Sekarang
+                                </a>
+                            </td>
+                            <td class="p-3 text-slate-300">Wajib Diisi Setelah Lulus BGC</td>
+                        </tr>
+                        <tr class="hover:bg-black/30">
+                            <td class="p-3 font-semibold text-white">Pengumuman Formulir</td>
+                            <td class="p-3"><span class="bg-amber-950 text-amber-400 px-2 py-0.5 rounded text-[10px]">Tahap 3</span></td>
+                            <td class="p-3"><a href="#cek-status" class="text-amber-400 hover:underline">Cek Menu Portal</a></td>
+                            <td class="p-3 text-slate-400">Penetapan Peserta Wawancara</td>
+                        </tr>
+                        <tr class="hover:bg-black/30">
+                            <td class="p-3 font-semibold text-white">Pengumuman Formulir</td>
+                            <td class="p-3"><span class="bg-amber-950 text-amber-400 px-2 py-0.5 rounded text-[10px]">Tahap 3</span></td>
+                            <td class="p-3"><a href="#cek-status" class="text-amber-400 hover:underline">Cek Menu Portal</a></td>
+                            <td class="p-3 text-slate-400">Penetapan Peserta Wawancara</td>
+                        </tr>
+                        <tr class="hover:bg-black/30">
+                            <td class="p-3 font-semibold text-white">Tes Wawancara & Fisik</td>
+                            <td class="p-3"><span class="bg-red-950 text-red-400 px-2 py-0.5 rounded text-[10px]">Tahap 4 & 5</span></td>
+                            <td class="p-3"><span class="text-slate-400">In-Game Server Roblox</span></td>
+                            <td class="p-3 text-slate-400">Uji Ketahanan & Knowledge Sabhara</td>
+                        </tr>
+                        <tr class="hover:bg-black/30 bg-sabhara-red/10">
+                            <td class="p-3 font-bold text-sabhara-gold">Sidang Pantukhir & Pelantikan</td>
+                            <td class="p-3"><span class="bg-sabhara-gold text-black font-bold px-2 py-0.5 rounded text-[10px]">Tahap 6</span></td>
+                            <td class="p-3"><a href="#pantukhir" class="text-sabhara-gold font-bold hover:underline">Menu Pantukhir</a></td>
+                            <td class="p-3 text-sabhara-gold font-semibold">Penetapan Siswa Resmi Pusdiklat</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION DUA KOLOM: AKSES NGISI G-FORM & CEK KELULUSAN -->
+        <section id="cek-status" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- BOX 1: AKSES FORMULIR (ISI G-FORM DIRECT) -->
+            <div class="bg-sabhara-panel border-2 border-sabhara-gold rounded-lg p-6 space-y-4 flex flex-col justify-between shadow-xl">
+                <div class="space-y-3">
+                    <div class="border-b border-sabhara-border pb-3 flex justify-between items-center">
+                        <h3 class="text-base font-bold text-sabhara-gold uppercase flex items-center gap-2">
+                            <i class="fas fa-file-pen text-xl"></i> 1. ISI FORMULIR G-FORM
+                        </h3>
+                        <span class="bg-emerald-950 text-emerald-400 border border-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded">FORM AKTIF</span>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Silakan klik tombol di bawah untuk langsung menuju halaman resmi Google Form Pendaftaran Casis Sabhara. 
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-1.5 list-disc pl-4">
+                        <li>Pastikan Anda telah **lulus verifikasi BGC** di Discord.</li>
+                        <li>Isi data Username Roblox dan Discord secara jujur & teliti.</li>
+                        <li>Gunakan link resmi ini agar pendaftaran Anda terdaftar di database.</li>
+                    </ul>
                 </div>
+
+                <!-- GANTI LINK GOOGLE FORM ANDA PADA HREF -->
+                <a href="https://forms.google.com" target="_blank" class="bg-sabhara-gold hover:bg-amber-600 text-black font-black py-3 px-4 rounded text-xs text-center uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg mt-4">
+                    <i class="fas fa-external-link-alt text-sm"></i> Buka Google Form Pendaftaran
+                </a>
+            </div>
+
+            <!-- BOX 2: CEK KELULUSAN G-FORM -->
+            <div class="bg-sabhara-panel border border-sabhara-border rounded-lg p-6 space-y-4 flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="border-b border-sabhara-border pb-3">
+                        <h3 class="text-base font-bold text-white uppercase flex items-center gap-2">
+                            <i class="fas fa-magnifying-glass text-sabhara-red"></i> 2. CEK STATUS HASIL G-FORM
+                        </h3>
+                        <p class="text-xs text-slate-400">Sudah mengisi formulir? Masukkan username untuk mengecek kelulusan.</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Username Roblox</label>
+                            <input type="text" id="inputGform" placeholder="Contoh: Casis_Sabhara12" class="w-full bg-black border border-sabhara-border rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-sabhara-gold">
+                        </div>
+                        <button onclick="checkGForm()" class="w-full bg-sabhara-red hover:bg-sabhara-brightred border border-sabhara-gold text-white font-extrabold py-2 rounded text-xs uppercase tracking-wider transition">
+                            Cek Status Kelulusan
+                        </button>
+                    </div>
+                </div>
+
+                <div id="resultGform" class="hidden p-3 rounded border text-xs leading-relaxed mt-2"></div>
+            </div>
+
+        </section>
+
+        <!-- SECTION MENU PANTUKHIR -->
+        <section id="pantukhir" class="bg-black border-2 border-sabhara-gold rounded-lg p-6 sm:p-8 space-y-6 shadow-2xl">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-sabhara-border pb-4">
                 <div>
-                    <h3 class="text-lg font-bold text-white">Cek Status Kelulusan Formulir (G-Form)</h3>
-                    <p class="text-xs text-slate-400">Masukkan Username Roblox Anda untuk mengecek hasil seleksi formulir pendaftaran.</p>
+                    <span class="bg-sabhara-red text-white text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider">TAHAP FINAL</span>
+                    <h3 class="text-xl font-extrabold text-sabhara-gold uppercase mt-1">MENU PANTUKHIR (PENENTUAN AKHIR)</h3>
+                    <p class="text-xs text-slate-400">Pengecekan kelulusan resmi casis menjadi Siswa Pusdiklat Korps Sabhara.</p>
                 </div>
+                <i class="fas fa-award text-sabhara-gold text-4xl hidden sm:block"></i>
             </div>
 
-            <!-- Form Search -->
-            <div class="flex flex-col sm:flex-row gap-3">
-                <input type="text" id="inputGform" placeholder="Masukkan Username Roblox (Contoh: Casis_Sabhara)" class="flex-grow bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
-                <button onclick="checkGForm()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition">
-                    Cek Kelulusan
-                </button>
-            </div>
-
-            <!-- Result Box -->
-            <div id="resultGform" class="hidden p-4 rounded-xl text-xs space-y-2 border"></div>
-        </div>
-    </section>
-
-    <!-- SECTION PANTUKHIR (PENENTUAN AKHIR SELEKSI) -->
-    <section id="pantukhir" class="py-16 px-4 max-w-4xl mx-auto w-full space-y-6">
-        <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-red-950 border-2 border-amber-500/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl">
-            <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
-                <div class="w-10 h-10 bg-red-800 text-amber-400 rounded-lg flex items-center justify-center text-xl">
-                    <i class="fas fa-trophy"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                <div class="md:col-span-2 space-y-1">
+                    <label class="block text-xs font-semibold text-slate-300">Masukkan Username Roblox / Nomor Casis</label>
+                    <input type="text" id="inputPantukhir" placeholder="Contoh: Casis_Sabhara12" class="w-full bg-sabhara-panel border border-sabhara-border rounded px-4 py-2.5 text-xs text-white focus:outline-none focus:border-sabhara-gold">
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold text-amber-400 uppercase tracking-wider">MENU PANTUKHIR (HASIL KELULUSAN PENDIDIKAN)</h3>
-                    <p class="text-xs text-slate-400">Pengecekan status akhir casis yang dinyatakan LULUS / TIDAK LULUS ke Tahap Pendidikan Sabhara.</p>
-                </div>
-            </div>
-
-            <!-- Form Search Pantukhir -->
-            <div class="flex flex-col sm:flex-row gap-3">
-                <input type="text" id="inputPantukhir" placeholder="Masukkan No. Casis / Username Roblox..." class="flex-grow bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
-                <button onclick="checkPantukhir()" class="bg-red-800 hover:bg-red-700 text-white border border-amber-500 font-extrabold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition">
+                <button onclick="checkPantukhir()" class="bg-sabhara-red hover:bg-sabhara-brightred border border-sabhara-gold text-white font-extrabold py-2.5 px-6 rounded text-xs uppercase tracking-wider transition">
                     Cek Hasil Pantukhir
                 </button>
             </div>
 
-            <!-- Result Box Pantukhir -->
-            <div id="resultPantukhir" class="hidden p-5 rounded-xl text-xs space-y-3 border"></div>
-        </div>
-    </section>
+            <div id="resultPantukhir" class="hidden p-4 rounded border text-xs leading-relaxed space-y-2"></div>
+        </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-slate-950 border-t border-slate-800 py-8 px-4 text-xs text-slate-500 mt-auto">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-            <div>
-                <p class="font-bold text-slate-300">PUSDIKLAT KORPS SABHARA BAHARKAM POLRI RBX</p>
-                <p class="text-slate-600 mt-1">Sistem Seleksi & E-Portal Terpadu Komunitas Roblox Indonesia.</p>
+        <!-- SECTION GALERI KEGIATAN ROBLOX -->
+        <section id="galeri" class="space-y-6">
+            <div class="border-l-4 border-sabhara-gold pl-4 flex justify-between items-end">
+                <div>
+                    <h3 class="text-xl font-extrabold text-white uppercase tracking-wider">GALERI KEGIATAN PUSDIKLAT</h3>
+                    <p class="text-xs text-slate-400">Dokumentasi kegiatan apel, latihan fisik, dan operasi Korps Sabhara RBX</p>
+                </div>
             </div>
-            <div class="max-w-md text-slate-600 italic">
-                <p><strong>DISCLAIMER:</strong> Website ini merupakan sarana simulasi roleplay komunitas game Roblox dan TIDAK berhubungan langsung dengan Kepolisian Negara Republik Indonesia (Polri) di dunia nyata.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-sabhara-panel border border-sabhara-border rounded overflow-hidden space-y-2 group">
+                    <div class="h-48 overflow-hidden bg-black relative">
+                        <img src="images/1000284937.png" alt="Apel Ditsamapta" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-xs text-white">Apel Persiapan Ditsamapta</h4>
+                        <p class="text-[11px] text-slate-400">Pemeriksaan kerapihan dan kesiapan personel sebelum kedinasan.</p>
+                    </div>
+                </div>
+
+                <div class="bg-sabhara-panel border border-sabhara-border rounded overflow-hidden space-y-2 group">
+                    <div class="h-48 overflow-hidden bg-black relative">
+                        <img src="images/1000284935.png" alt="Tes Fisik" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-xs text-white">Uji Kesamaptaan Fisik Casis</h4>
+                        <p class="text-[11px] text-slate-400">Pelaksanaan tes fisik dan ketahanan untuk calon siswa Sabhara.</p>
+                    </div>
+                </div>
+
+                <div class="bg-sabhara-panel border border-sabhara-border rounded overflow-hidden space-y-2 group">
+                    <div class="h-48 overflow-hidden bg-black relative">
+                        <img src="images/1000284933.png" alt="Timsus PRC" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-xs text-white">Unit Taktis Timsus PRC</h4>
+                        <p class="text-[11px] text-slate-400">Pengamanan khusus dan penindakan cepat Patkor Sabhara.</p>
+                    </div>
+                </div>
+
+                <div class="bg-sabhara-panel border border-sabhara-border rounded overflow-hidden space-y-2 group">
+                    <div class="h-48 overflow-hidden bg-black relative">
+                        <img src="images/1000284934.png" alt="Upacara Pelantikan" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-xs text-white">Upacara Pelantikan Siswa</h4>
+                        <p class="text-[11px] text-slate-400">Penutupan pendidikan dan pelantikan menjadi anggota aktif.</p>
+                    </div>
+                </div>
+
+                <div class="bg-sabhara-panel border border-sabhara-border rounded overflow-hidden space-y-2 group">
+                    <div class="h-48 overflow-hidden bg-black relative">
+                        <img src="images/1000284932.jpg" alt="Latihan PBB" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-xs text-white">Pelatihan PBB & Pengendalian Massa</h4>
+                        <p class="text-[11px] text-slate-400">Latihan kekompakan formasi peleton Dalmas Sabhara.</p>
+                    </div>
+                </div>
+
+                <div class="bg-sabhara-panel border border-sabhara-border rounded overflow-hidden space-y-2 group">
+                    <div class="h-48 overflow-hidden bg-black relative p-2 flex items-center justify-center">
+                        <img src="images/1000284928_2.png" alt="Logo Sabhara" class="h-full object-contain">
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-xs text-sabhara-gold">Korps Sabhara Baharkam Polri</h4>
+                        <p class="text-[11px] text-slate-400">Motto: Rastra Sewakottama - Abdi Utama Bagi Nusa dan Bangsa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER RESMI -->
+    <footer class="bg-black border-t border-sabhara-border py-8 px-4 text-xs text-slate-400 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <div>
+                <p class="font-extrabold text-white text-sm">PUSDIKLAT KORPS SABHARA BAHARKAM POLRI RBX</p>
+                <p class="text-slate-500 mt-0.5">Sistem Portal Pendaftaran & Informasi Terpadu Komunitas Roleplay Roblox.</p>
+            </div>
+            <div class="max-w-md text-slate-500 italic text-[11px]">
+                <p><strong>DISCLAIMER:</strong> Website ini adalah sarana komunikasi roleplay untuk game Roblox (Polri RBX) dan TIDAK terafiliasi secara resmi dengan Kepolisian Negara Republik Indonesia (Polri) di dunia nyata.</p>
             </div>
         </div>
     </footer>
 
-    <!-- JAVASCRIPT FOR DYNAMIC DATA & INTERACTIVITY -->
+    <!-- JAVASCRIPT SYSTEM -->
     <script>
-        // Toggle Mobile Navigation
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
-        // SIMULASI DATA CASIS (Bisa disesuaikan / dihubungkan dengan database/spreadsheet)
-        const mockDataGForm = {
-            "casis_sabhara": { status: "LULUS", pesan: "Selamat! Anda dinyatakan LULUS pengisian Formulir G-Form. Silakan bersiap untuk tahap WAWANCARA di Discord." },
-            "budi_rbx": { status: "LULUS", pesan: "Selamat! Berkas G-Form Anda lengkap. Lanjut ke sesi Tes Wawancara." },
-            "user_gagal": { status: "TIDAK LULUS", pesan: "Mohon maaf, formulir Anda tidak memenuhi syarat administrasi." }
+        // SIMULASI DATABASE CASIS
+        const dbGForm = {
+            "casis_sabhara": { status: "LULUS", pesan: "Selamat! Anda dinyatakan LULUS verifikasi Formulir G-Form. Silakan cek Discord untuk jadwal Tes Wawancara & Fisik." },
+            "budi_rbx": { status: "LULUS", pesan: "Formulir Anda lengkap. Bersiaplah mengikuti tes wawancara lisan." },
+            "user_gagal": { status: "TIDAK LULUS", pesan: "Mohon maaf, pengisian G-Form Anda tidak memenuhi kriteria administrasi." }
         };
 
-        const mockDataPantukhir = {
-            "casis_sabhara": { status: "LULUS PANTUKHIR", nrp: "SBH-2026-001", keterangan: "Selamat! Anda dinyatakan LULUS PANTUKHIR dan resmi menjadi SISWA PUSDIKLAT SABHARA." },
-            "budi_rbx": { status: "TIDAK LULUS", nrp: "-", keterangan: "Mohon maaf, nilai kesamaptaan fisik/wawancara belum memenuhi kuota kelulusan." }
+        const dbPantukhir = {
+            "casis_sabhara": { status: "LULUS PANTUKHIR", nrp: "SBH-2026-001", pesan: "Selamat! Anda dinyatakan LULUS SIDANG PANTUKHIR dan resmi menjadi Siswa Pusdiklat Sabhara." },
+            "budi_rbx": { status: "TIDAK LULUS", nrp: "-", pesan: "Mohon maaf, Anda belum memenuhi kuota kelulusan pada sidang Pantukhir kali ini." }
         };
 
-        // Fungsi Cek Kelulusan G-Form
         function checkGForm() {
             const input = document.getElementById('inputGform').value.trim().toLowerCase();
-            const resultBox = document.getElementById('resultGform');
+            const box = document.getElementById('resultGform');
 
             if (!input) {
-                alert("Harap masukkan Username Roblox Anda!");
+                alert("Harap masukkan Username Roblox!");
                 return;
             }
 
-            resultBox.classList.remove('hidden', 'bg-emerald-950/50', 'border-emerald-700', 'text-emerald-300', 'bg-rose-950/50', 'border-rose-700', 'text-rose-300', 'bg-slate-900', 'border-slate-700');
+            box.classList.remove('hidden', 'bg-emerald-950', 'border-emerald-700', 'text-emerald-200', 'bg-rose-950', 'border-rose-700', 'text-rose-200', 'bg-slate-900', 'border-slate-700', 'text-amber-300');
 
-            if (mockDataGForm[input]) {
-                const data = mockDataGForm[input];
+            if (dbGForm[input]) {
+                const data = dbGForm[input];
                 if (data.status === "LULUS") {
-                    resultBox.classList.add('bg-emerald-950/50', 'border-emerald-700', 'text-emerald-300');
-                    resultBox.innerHTML = `<strong>STATUS: LULUS SELEKSI G-FORM</strong><br/>${data.pesan}`;
+                    box.classList.add('bg-emerald-950', 'border-emerald-700', 'text-emerald-200');
+                    box.innerHTML = `<strong class="text-emerald-400">STATUS: LULUS G-FORM</strong><br/>${data.pesan}`;
                 } else {
-                    resultBox.classList.add('bg-rose-950/50', 'border-rose-700', 'text-rose-300');
-                    resultBox.innerHTML = `<strong>STATUS: TIDAK LULUS</strong><br/>${data.pesan}`;
+                    box.classList.add('bg-rose-950', 'border-rose-700', 'text-rose-200');
+                    box.innerHTML = `<strong class="text-rose-400">STATUS: TIDAK LULUS</strong><br/>${data.pesan}`;
                 }
             } else {
-                resultBox.classList.add('bg-slate-900', 'border-amber-500/40', 'text-amber-300');
-                resultBox.innerHTML = `<strong>DATA TIDAK DITEMUKAN / BELUM DIVERIFIKASI</strong><br/>Username '${input}' belum terdata dalam sistem pengumuman G-Form. Pastikan Anda telah mengisi formulir secara benar.`;
+                box.classList.add('bg-slate-900', 'border-sabhara-border', 'text-amber-300');
+                box.innerHTML = `<strong>DATA TIDAK DITEMUKAN</strong><br/>Username '${input}' belum terdata. Pastikan Anda sudah mengisi formulir dengan benar.`;
             }
         }
 
-        // Fungsi Cek Hasil Pantukhir
         function checkPantukhir() {
             const input = document.getElementById('inputPantukhir').value.trim().toLowerCase();
-            const resultBox = document.getElementById('resultPantukhir');
+            const box = document.getElementById('resultPantukhir');
 
             if (!input) {
                 alert("Harap masukkan Username atau No. Casis!");
                 return;
             }
 
-            resultBox.classList.remove('hidden', 'bg-emerald-950/80', 'border-emerald-500', 'bg-rose-950/80', 'border-rose-500', 'bg-slate-900', 'border-slate-700');
+            box.classList.remove('hidden', 'bg-emerald-950', 'border-sabhara-gold', 'text-emerald-100', 'bg-rose-950', 'border-rose-700', 'text-rose-200', 'bg-sabhara-panel', 'border-sabhara-border', 'text-slate-300');
 
-            if (mockDataPantukhir[input]) {
-                const data = mockDataPantukhir[input];
+            if (dbPantukhir[input]) {
+                const data = dbPantukhir[input];
                 if (data.status.includes("LULUS")) {
-                    resultBox.classList.add('bg-emerald-950/80', 'border-emerald-500', 'text-emerald-200');
-                    resultBox.innerHTML = `
-                        <div class="flex justify-between items-center border-b border-emerald-800 pb-2">
-                            <span class="font-extrabold text-amber-400 text-sm">HASIL AKHIR PANTUKHIR</span>
-                            <span class="bg-emerald-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">LULUS PENDIDIKAN</span>
+                    box.classList.add('bg-emerald-950', 'border-sabhara-gold', 'text-emerald-100');
+                    box.innerHTML = `
+                        <div class="flex justify-between items-center border-b border-emerald-800 pb-1 mb-2">
+                            <strong class="text-sabhara-gold font-bold">HASIL SIDANG PANTUKHIR</strong>
+                            <span class="bg-sabhara-gold text-black font-extrabold px-2 py-0.5 rounded text-[10px]">LULUS PENDIDIKAN</span>
                         </div>
-                        <p class="mt-2"><strong>NO. CASIS / ID:</strong> ${data.nrp}</p>
-                        <p><strong>KETERANGAN:</strong> ${data.keterangan}</p>
+                        <p><strong>NRP SISWA:</strong> ${data.nrp}</p>
+                        <p><strong>KETERANGAN:</strong> ${data.pesan}</p>
                     `;
                 } else {
-                    resultBox.classList.add('bg-rose-950/80', 'border-rose-500', 'text-rose-200');
-                    resultBox.innerHTML = `
-                        <div class="flex justify-between items-center border-b border-rose-800 pb-2">
-                            <span class="font-extrabold text-rose-400 text-sm">HASIL AKHIR PANTUKHIR</span>
-                            <span class="bg-rose-600 text-white font-black px-2 py-0.5 rounded text-[10px]">TIDAK LULUS</span>
+                    box.classList.add('bg-rose-950', 'border-rose-700', 'text-rose-200');
+                    box.innerHTML = `
+                        <div class="flex justify-between items-center border-b border-rose-800 pb-1 mb-2">
+                            <strong class="text-rose-400 font-bold">HASIL SIDANG PANTUKHIR</strong>
+                            <span class="bg-rose-600 text-white font-extrabold px-2 py-0.5 rounded text-[10px]">TIDAK LULUS</span>
                         </div>
-                        <p class="mt-2"><strong>KETERANGAN:</strong> ${data.keterangan}</p>
+                        <p><strong>KETERANGAN:</strong> ${data.pesan}</p>
                     `;
                 }
             } else {
-                resultBox.classList.add('bg-slate-900', 'border-slate-700', 'text-slate-300');
-                resultBox.innerHTML = `<strong>DATA PANTUKHIR TIDAK DITEMUKAN</strong><br/>Data untuk username/nomor '${input}' belum tersedia atau Sidang Pantukhir belum dilaksanakan.`;
+                box.classList.add('bg-sabhara-panel', 'border-sabhara-border', 'text-slate-300');
+                box.innerHTML = `<strong>DATA PANTUKHIR TIDAK DITEMUKAN</strong><br/>Data untuk '${input}' belum tersedia atau sidang Pantukhir belum dilaksanakan.`;
             }
         }
     </script>
 </body>
 </html>
+                            
+
+                        
