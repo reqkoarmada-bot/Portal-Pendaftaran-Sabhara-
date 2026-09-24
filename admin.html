@@ -1,1 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - PUSDIKLAT SABHARA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { brand: { dark: '#0b0f17', card: '#131924', border: '#1f293d', red: '#991b1b', gold: '#d97706' } }
+                }
+            }
+        }
+    </script>
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f17; color: #cbd5e1; }</style>
+</head>
+<body class="min-h-screen flex flex-col justify-center items-center p-4">
+
+    <!-- FORM LOGIN ADMIN -->
+    <div id="login-card" class="w-full max-w-md bg-brand-card border border-brand-border p-6 rounded-xl space-y-5 shadow-2xl">
+        <div class="text-center space-y-1">
+            <i class="fas fa-user-shield text-amber-500 text-4xl mb-2"></i>
+            <h2 class="text-xl font-extrabold text-white">LOGIN PANEL ADMIN</h2>
+            <p class="text-xs text-slate-400">Masukkan akun pengelola Pusdiklat Sabhara</p>
+        </div>
+
+        <form onsubmit="handleLogin(event)" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Username Admin</label>
+                <input type="text" id="adminUser" required placeholder="Masukkan Username" class="w-full bg-brand-dark border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+                <input type="password" id="adminPass" required placeholder="••••••••" class="w-full bg-brand-dark border border-brand-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <button type="submit" id="btnSubmit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 rounded-lg text-xs transition">
+                Masuk ke Admin Panel
+            </button>
+        </form>
+        <div class="text-center pt-2">
+            <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300">Kembali ke Beranda Utama</a>
+        </div>
+    </div>
+
+    <!-- DASHBOARD PANEL ADMIN -->
+    <div id="admin-dashboard" class="hidden w-full max-w-5xl space-y-8 py-8">
+        
+        <!-- HEADER DASHBOARD -->
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <h2 class="text-xl font-extrabold text-white">PANEL KONTROL PUSDIKLAT SABHARA</h2>
+                <p class="text-xs text-slate-400">Atur penguncian fitur, kelola kelulusan casis, & galeri foto</p>
+            </div>
+            <div class="flex gap-2">
+                <a href="index.html" target="_blank" class="bg-brand-dark border border-brand-border text-slate-300 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition">
+                    <i class="fas fa-external-link-alt"></i> Lihat Website
+                </a>
+                <button onclick="handleLogout()" class="bg-red-900/80 hover:bg-red-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition">
+                    <i class="fas fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- FITUR 1: KONTROL KUNCI FITUR (LOCK SWITCH) -->
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4">
+            <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
+                <i class="fas fa-lock"></i> Kunci / Buka Fitur Pengumuman
+            </h3>
+            <p class="text-xs text-slate-400">Aktifkan tombol penguncian di bawah ini agar pengumuman di website utama tidak bisa dicek oleh casis sebelum waktunya.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                <div class="bg-brand-dark p-4 rounded-lg border border-brand-border flex justify-between items-center">
+                    <div>
+                        <h4 class="font-bold text-xs text-white">Status Pengumuman G-Form</h4>
+                        <p id="label-gform" class="text-[11px] text-emerald-400 font-bold">Terbuka untuk Umum</p>
+                    </div>
+                    <button id="btn-lock-gform" onclick="toggleLock('gform')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg">
+                        Kunci Fitur
+                    </button>
+                </div>
+
+                <div class="bg-brand-dark p-4 rounded-lg border border-brand-border flex justify-between items-center">
+                    <div>
+                        <h4 class="font-bold text-xs text-white">Status Sidang Pantukhir</h4>
+                        <p id="label-pantukhir" class="text-[11px] text-emerald-400 font-bold">Terbuka untuk Umum</p>
+                    </div>
+                    <button id="btn-lock-pantukhir" onclick="toggleLock('pantukhir')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg">
+                        Kunci Fitur
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FITUR 2: KELOLA GALERI FOTO -->
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
+            <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
+                <i class="fas fa-images"></i> Kelola Foto Galeri (galeri.html)
+            </h3>
+
+            <!-- FORM TAMBAH FOTO -->
+            <form onsubmit="addGalleryItem(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-brand-dark p-4 rounded-lg border border-brand-border">
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">URL / Path Foto</label>
+                    <input type="text" id="galImg" required placeholder="images/foto.png atau link URL" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Judul Kegiatan</label>
+                    <input type="text" id="galTitle" required placeholder="Contoh: Apel Gabungan" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Keterangan Singkat</label>
+                    <input type="text" id="galDesc" required placeholder="Keterangan foto..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                </div>
+                <div class="sm:col-span-3">
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition w-full sm:w-auto">
+                        + Tambahkan Foto ke Galeri
+                    </button>
+                </div>
+            </form>
+
+            <!-- LIST FOTO YANG ADA -->
+            <div id="admin-gallery-list" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // HANDLE LOGIN VIA API /api/login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('adminUser').value.trim();
+            const p = document.getElementById('adminPass').value.trim();
+            const btn = document.getElementById('btnSubmit');
+
+            btn.innerText = "Memverifikasi...";
+            btn.disabled = true;
+
+            try {
+                // Request ke Folder API
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: u, password: p })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    sessionStorage.setItem('admin_logged', 'true');
+                    sessionStorage.setItem('admin_token', data.token);
+                    renderAdminView();
+                } else {
+                    alert(data.message || 'Login Gagal!');
+                }
+            } catch (err) {
+                console.error("API Error:", err);
+                alert("Gagal terhubung ke /api/login.\nPastikan website sudah di-deploy ke Vercel agar API serverless dapat berjalan.");
+            } finally {
+                btn.innerText = "Masuk ke Admin Panel";
+                btn.disabled = false;
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('admin_logged');
+            sessionStorage.removeItem('admin_token');
+            location.reload();
+        }
+
+        function renderAdminView() {
+            if (sessionStorage.getItem('admin_logged') === 'true') {
+                document.getElementById('login-card').classList.add('hidden');
+                document.getElementById('admin-dashboard').classList.remove('hidden');
+                document.body.classList.remove('justify-center', 'items-center');
+                updateLockUI();
+                renderAdminGallery();
+            }
+        }
+
+        // LOCK SWITCH LOGIC
+        function toggleLock(type) {
+            const key = 'lock_' + type;
+            const current = localStorage.getItem(key) === 'true';
+            localStorage.setItem(key, (!current).toString());
+            updateLockUI();
+        }
+
+        function updateLockUI() {
+            const gLocked = localStorage.getItem('lock_gform') === 'true';
+            const pLocked = localStorage.getItem('lock_pantukhir') === 'true';
+
+            document.getElementById('label-gform').innerText = gLocked ? 'TERKUNCI (Pengumuman Ditutup)' : 'Terbuka untuk Umum';
+            document.getElementById('label-gform').className = gLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
+            document.getElementById('btn-lock-gform').innerText = gLocked ? 'Buka Akses' : 'Kunci Fitur';
+
+            document.getElementById('label-pantukhir').innerText = pLocked ? 'TERKUNCI (Pengumuman Ditutup)' : 'Terbuka untuk Umum';
+            document.getElementById('label-pantukhir').className = pLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
+            document.getElementById('btn-lock-pantukhir').innerText = pLocked ? 'Buka Akses' : 'Kunci Fitur';
+        }
+
+        // GALERI MANAGEMENT
+        const defaultGallery = [
+            { img: "images/1000284937.png", title: "Apel Persiapan Ditsamapta", desc: "Pemeriksaan kerapihan dan kesiapan personel sebelum dinas." },
+            { img: "images/1000284935.png", title: "Uji Kesamaptaan Fisik", desc: "Pelaksanaan ujian fisik dan ketahanan calon siswa." }
+        ];
+
+        function getGalleryData() {
+            const saved = localStorage.getItem('sabhara_gallery');
+            return saved ? JSON.parse(saved) : defaultGallery;
+        }
+
+        function addGalleryItem(e) {
+            e.preventDefault();
+            const data = getGalleryData();
+            data.push({
+                img: document.getElementById('galImg').value.trim(),
+                title: document.getElementById('galTitle').value.trim(),
+                desc: document.getElementById('galDesc').value.trim()
+            });
+            localStorage.setItem('sabhara_gallery', JSON.stringify(data));
+            e.target.reset();
+            renderAdminGallery();
+        }
+
+        function deleteGalleryItem(index) {
+            if (confirm('Hapus foto ini dari galeri?')) {
+                const data = getGalleryData();
+                data.splice(index, 1);
+                localStorage.setItem('sabhara_gallery', JSON.stringify(data));
+                renderAdminGallery();
+            }
+        }
+
+        function renderAdminGallery() {
+            const data = getGalleryData();
+            const list = document.getElementById('admin-gallery-list');
+            list.innerHTML = data.map((item, idx) => `
+                <div class="bg-brand-dark p-3 rounded-lg border border-brand-border space-y-2">
+                    <img src="${item.img}" class="h-32 w-full object-cover rounded" onerror="this.src='https://via.placeholder.com/300x150'">
+                    <h4 class="font-bold text-xs text-white">${item.title}</h4>
+                    <p class="text-[11px] text-slate-400">${item.desc}</p>
+                    <button onclick="deleteGalleryItem(${idx})" class="w-full bg-rose-900/80 hover:bg-rose-800 text-white font-bold py-1 rounded text-[11px]">
+                        <i class="fas fa-trash mr-1"></i> Hapus Foto
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        renderAdminView();
+    </script>
+</body>
+  </html>
 
