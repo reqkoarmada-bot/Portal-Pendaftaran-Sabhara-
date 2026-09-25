@@ -51,57 +51,69 @@
     </div>
 
     <!-- MAIN NAVBAR -->
-    <nav class="bg-brand-dark/90 backdrop-blur-md border-b border-brand-border sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-brand-card border border-amber-500/30 rounded-lg flex items-center justify-center text-amber-400">
-                        <i class="fas fa-shield-halved text-xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-extrabold text-sm sm:text-base tracking-wide text-white uppercase leading-tight">PUSDIKLAT KORPS SABHARA</h1>
-                        <p class="text-[10px] text-amber-500 font-semibold uppercase tracking-widest">BAHARKAM POLRI ROBLOX</p>
-                    </div>
+<nav class="bg-brand-dark/90 backdrop-blur-md border-b border-brand-border sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-brand-card border border-amber-500/30 rounded-lg flex items-center justify-center text-amber-400">
+                    <i class="fas fa-shield-halved text-xl"></i>
                 </div>
-
-                <div class="hidden lg:flex items-center space-x-6 text-xs font-semibold uppercase tracking-wider">
-                    <a href="#profil" class="text-slate-300 hover:text-white transition">Profil</a>
-                    <a href="#tahapan" class="text-slate-300 hover:text-white transition">Tahapan</a>
-                    <a href="#cek-status" class="text-slate-300 hover:text-white transition">Cek Status</a>
-                    <!-- NAVIGATION KE HALAMAN GALERI -->
-                    <a href="galeri.html" class="text-amber-400 hover:text-amber-300 transition flex items-center gap-1">
-                        <i class="fas fa-images"></i> Galeri Kegiatan
-                    </a>
-                    <a href="https://discord.gg" target="_blank" class="text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1">
-                        <i class="fab fa-discord"></i> Discord
-                    </a>
-                    <a href="https://forms.google.com" target="_blank" class="bg-amber-600 hover:bg-amber-500 text-white px-3.5 py-2 rounded-lg font-bold transition flex items-center gap-1.5 shadow-sm">
-                        <i class="fas fa-file-pen"></i> ISI G-FORM
-                    </a>
-                    <a href="#pantukhir" class="bg-brand-red hover:bg-brand-redhover text-white px-3.5 py-2 rounded-lg font-bold transition">
-                        Pantukhir
-                    </a>
-                </div>
-
-                <div class="lg:hidden">
-                    <button id="menu-btn" class="text-slate-300 text-2xl p-2 focus:outline-none">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                <div>
+                    <h1 class="font-extrabold text-sm sm:text-base tracking-wide text-white uppercase leading-tight">PUSDIKLAT KORPS SABHARA</h1>
+                    <p class="text-[10px] text-amber-500 font-semibold uppercase tracking-widest">BAHARKAM POLRI ROBLOX</p>
                 </div>
             </div>
-        </div>
 
-        <div id="mobile-menu" class="hidden lg:hidden bg-brand-card border-b border-brand-border px-4 py-4 space-y-3 text-xs font-semibold uppercase">
-            <a href="#profil" class="block text-slate-300 py-1">Profil</a>
-            <a href="#tahapan" class="block text-slate-300 py-1">Tahapan Seleksi</a>
-            <a href="galeri.html" class="block text-amber-400 font-bold py-1"><i class="fas fa-images mr-1"></i> Galeri Kegiatan</a>
-            <a href="https://discord.gg" target="_blank" class="block text-indigo-400 font-bold py-1"><i class="fab fa-discord mr-1"></i> Join Discord Official</a>
-            <a href="https://forms.google.com" target="_blank" class="block text-amber-400 font-bold py-1"><i class="fas fa-file-pen mr-1"></i> Isi Formulir G-Form</a>
-            <a href="#cek-status" class="block text-slate-300 py-1">Cek Status Hasil G-Form</a>
-            <a href="#pantukhir" class="block text-red-400 font-bold py-1">Menu Pantukhir</a>
-        </div>
-    </nav>
+            <!-- TAMPILAN DESKTOP -->
+            <div class="hidden lg:flex items-center space-x-5 text-xs font-semibold uppercase tracking-wider">
+                <a href="#profil" class="text-slate-300 hover:text-white transition">Profil</a>
+                <a href="#tahapan" class="text-slate-300 hover:text-white transition">Tahapan</a>
+                <a href="#cek-status" class="text-slate-300 hover:text-white transition">Cek Status</a>
+                
+                <!-- MENU TERBARU: PENGUMUMAN & HALL OF FAME -->
+                <a href="pengumuman.html" class="text-amber-400 hover:text-amber-300 transition flex items-center gap-1">
+                    <i class="fas fa-bullhorn"></i> Pengumuman
+                </a>
+                <a href="hall-of-fame.html" class="text-amber-400 hover:text-amber-300 transition flex items-center gap-1">
+                    <i class="fas fa-trophy"></i> Hall of Fame
+                </a>
+                <a href="galeri.html" class="text-amber-400 hover:text-amber-300 transition flex items-center gap-1">
+                    <i class="fas fa-images"></i> Galeri
+                </a>
 
+                <a href="https://discord.gg" target="_blank" class="text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1">
+                    <i class="fab fa-discord"></i> Discord
+                </a>
+                <a href="https://forms.google.com" target="_blank" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg font-bold transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fas fa-file-pen"></i> G-FORM
+                </a>
+                <a href="#pantukhir" class="bg-brand-red hover:bg-brand-redhover text-white px-3 py-2 rounded-lg font-bold transition">
+                    Pantukhir
+                </a>
+            </div>
+
+            <div class="lg:hidden">
+                <button id="menu-btn" class="text-slate-300 text-2xl p-2 focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAMPILAN MOBILE (DROPDOWN MENU) -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-brand-card border-b border-brand-border px-4 py-4 space-y-3 text-xs font-semibold uppercase">
+        <a href="#profil" class="block text-slate-300 py-1">Profil</a>
+        <a href="#tahapan" class="block text-slate-300 py-1">Tahapan Seleksi</a>
+        <a href="pengumuman.html" class="block text-amber-400 font-bold py-1"><i class="fas fa-bullhorn mr-1"></i> Pengumuman Resmi</a>
+        <a href="hall-of-fame.html" class="block text-amber-400 font-bold py-1"><i class="fas fa-trophy mr-1"></i> Hall of Fame</a>
+        <a href="galeri.html" class="block text-amber-400 font-bold py-1"><i class="fas fa-images mr-1"></i> Galeri Kegiatan</a>
+        <a href="https://discord.gg" target="_blank" class="block text-indigo-400 font-bold py-1"><i class="fab fa-discord mr-1"></i> Join Discord Official</a>
+        <a href="https://forms.google.com" target="_blank" class="block text-amber-400 font-bold py-1"><i class="fas fa-file-pen mr-1"></i> Isi Formulir G-Form</a>
+        <a href="#cek-status" class="block text-slate-300 py-1">Cek Status Hasil G-Form</a>
+        <a href="#pantukhir" class="block text-red-400 font-bold py-1">Menu Pantukhir</a>
+    </div>
+</nav>
+    
     <!-- HERO BANNER -->
     <header class="relative bg-brand-dark py-20 border-b border-brand-border overflow-hidden">
         <div class="relative z-10 max-w-4xl mx-auto px-4 text-center space-y-5">
