@@ -138,30 +138,30 @@
             </form>
         </div>
 
-        <!-- FITUR 2: KELOLA GALERI FOTO (DENGAN PILIH GALERI & AUTO-KOMPRESI) -->
+        <!-- FITUR 2: KELOLA GALERI FOTO (MODEL LINK URL) -->
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
             <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
                 <i class="fas fa-images"></i> Kelola Foto Galeri (galeri.html)
             </h3>
 
             <!-- FORM TAMBAH FOTO -->
-            <form id="form-gallery" onsubmit="addGalleryItem(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-brand-dark p-4 rounded-lg border border-brand-border">
+            <form onsubmit="addGalleryItem(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-brand-dark p-4 rounded-lg border border-brand-border">
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Pilih Foto dari Galeri</label>
-                    <input type="file" id="galImgFile" accept="image/*" required class="w-full bg-brand-card border border-brand-border rounded p-1.5 text-xs text-slate-300 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-950 hover:file:bg-amber-600 cursor-pointer">
-                    <p class="text-[10px] text-emerald-400 mt-1"><i class="fas fa-magic mr-1"></i>Auto-kompresi gambar</p>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Link URL / Path Foto</label>
+                    <input type="text" id="galImg" required placeholder="images/foto.png atau https://i.ibb.co/xxx.jpg" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                    <p class="text-[10px] text-slate-400 mt-1">Gunakan path folder lokal atau link URL foto dari internet/Discord.</p>
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Judul Kegiatan</label>
-                    <input type="text" id="galTitle" required placeholder="Contoh: Apel Gabungan" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                    <input type="text" id="galTitle" required placeholder="Contoh: Apel Gabungan" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Keterangan Singkat</label>
-                    <input type="text" id="galDesc" required placeholder="Keterangan foto..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                    <input type="text" id="galDesc" required placeholder="Keterangan foto..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div class="sm:col-span-3">
                     <button type="submit" id="btnSubmitGal" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition w-full sm:w-auto inline-flex items-center justify-center gap-1">
-                        <i class="fas fa-upload"></i> + Kompres & Unggah Foto ke Galeri
+                        <i class="fas fa-plus-circle"></i> + Tambahkan Foto ke Galeri
                     </button>
                 </div>
             </form>
@@ -309,9 +309,7 @@
             document.getElementById('btn-lock-pantukhir').innerText = pLocked ? 'Buka Akses' : 'Kunci Fitur';
         }
 
-        // ==========================================
-        // GALERI MANAGEMENT (AUTO-KOMPRESI & FIRESTORE)
-        // ==========================================
+        // GALERI MANAGEMENT (MODEL URL / PATH)
         const defaultGallery = [
             { img: "images/1000284937.png", title: "Apel Persiapan Ditsamapta", desc: "Pemeriksaan kerapihan dan kesiapan personel sebelum dinas." },
             { img: "images/1000284935.png", title: "Uji Kesamaptaan Fisik", desc: "Pelaksanaan ujian fisik dan ketahanan calon siswa." }
@@ -322,91 +320,38 @@
             return saved ? JSON.parse(saved) : defaultGallery;
         }
 
-        // FUNGSI UTAMA AUTO-KOMPRESI GAMBAR (CANVAS)
-        function compressImage(file, maxWidth = 1280, maxHeight = 1280, quality = 0.75) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        let width = img.width;
-                        let height = img.height;
-
-                        if (width > height) {
-                            if (width > maxWidth) {
-                                height = Math.round((height * maxWidth) / width);
-                                width = maxWidth;
-                            }
-                        } else {
-                            if (height > maxHeight) {
-                                width = Math.round((width * maxHeight) / height);
-                                height = maxHeight;
-                            }
-                        }
-
-                        const canvas = document.createElement('canvas');
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-
-                        const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
-                        resolve(compressedBase64);
-                    };
-                    img.onerror = (err) => reject(err);
-                };
-                reader.onerror = (err) => reject(err);
-            });
-        }
-
         async function addGalleryItem(e) {
             e.preventDefault();
-            const fileInput = document.getElementById('galImgFile');
+            const imgUrl = document.getElementById('galImg').value.trim();
             const title = document.getElementById('galTitle').value.trim();
             const desc = document.getElementById('galDesc').value.trim();
             const btn = document.getElementById('btnSubmitGal');
 
-            if (!fileInput.files || !fileInput.files[0]) {
-                alert('Pilih foto dari galeri terlebih dahulu!');
-                return;
-            }
-
             btn.disabled = true;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> Mengompres & Mengunggah...`;
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> Menyimpan...`;
 
             try {
-                const file = fileInput.files[0];
-                const compressedBase64 = await compressImage(file, 1280, 1280, 0.75);
-
+                // Simpan ke Firestore
                 await db.collection('gallery').add({
-                    img: compressedBase64,
+                    img: imgUrl,
                     title: title,
                     desc: desc,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-
-                alert('Foto berhasil dikompres dan disimpan ke Firestore!');
+                alert('Foto berhasil ditambahkan ke Firestore!');
                 e.target.reset();
                 renderAdminGallery();
             } catch (err) {
-                console.error("Firestore Error, fallback ke LocalStorage:", err);
-                try {
-                    const file = fileInput.files[0];
-                    const compressedBase64 = await compressImage(file, 1280, 1280, 0.75);
-                    const data = getGalleryData();
-                    data.unshift({ img: compressedBase64, title, desc });
-                    localStorage.setItem('sabhara_gallery', JSON.stringify(data));
-                    alert('Foto dikompres dan tersimpan di LocalStorage!');
-                    e.target.reset();
-                    renderAdminGallery();
-                } catch (e2) {
-                    alert('Gagal memproses gambar!');
-                }
+                console.error("Firestore Error, simpan ke LocalStorage:", err);
+                const data = getGalleryData();
+                data.unshift({ img: imgUrl, title: title, desc: desc });
+                localStorage.setItem('sabhara_gallery', JSON.stringify(data));
+                alert('Foto berhasil ditambahkan!');
+                e.target.reset();
+                renderAdminGallery();
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fas fa-upload"></i> + Kompres & Unggah Foto ke Galeri`;
+                btn.innerHTML = `<i class="fas fa-plus-circle"></i> + Tambahkan Foto ke Galeri`;
             }
         }
 
@@ -422,7 +367,7 @@
                     }
                     renderAdminGallery();
                 } catch (err) {
-                    console.error("Gagal hapus:", err);
+                    console.error("Gagal hapus Firestore:", err);
                     const data = getGalleryData();
                     data.splice(index, 1);
                     localStorage.setItem('sabhara_gallery', JSON.stringify(data));
@@ -487,3 +432,4 @@
     </script>
 </body>
 </html>
+    
