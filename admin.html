@@ -54,11 +54,11 @@
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div>
                 <h2 class="text-xl font-extrabold text-white">PANEL KONTROL PUSDIKLAT SABHARA</h2>
-                <p class="text-xs text-slate-400">Atur penguncian fitur, kelola data kelulusan peserta, & galeri foto</p>
+                <p class="text-xs text-slate-400">Atur fitur, peserta, galeri, hall of fame, & pengumuman</p>
             </div>
-            <div class="flex gap-2">
+            <div class="flex gap-2 flex-wrap">
                 <a href="index.html" target="_blank" class="bg-brand-dark border border-brand-border text-slate-300 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition">
-                    <i class="fas fa-external-link-alt"></i> Lihat Website
+                    <i class="fas fa-external-link-alt"></i> Website Utama
                 </a>
                 <button onclick="handleLogout()" class="bg-red-900/80 hover:bg-red-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition">
                     <i class="fas fa-right-from-bracket"></i> Logout
@@ -66,120 +66,171 @@
             </div>
         </div>
 
-        <!-- FITUR 1: KONTROL KUNCI FITUR (LOCK SWITCH) -->
+        <!-- FITUR 1: KONTROL KUNCI FITUR -->
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4">
             <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
-                <i class="fas fa-lock"></i> Kunci / Buka Fitur Pengumuman
+                <i class="fas fa-lock"></i> Kunci / Buka Fitur Pengumuman Kelulusan
             </h3>
-            <p class="text-xs text-slate-400">Aktifkan tombol penguncian di bawah ini agar pengumuman di website utama tidak bisa dicek oleh casis sebelum waktunya.</p>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div class="bg-brand-dark p-4 rounded-lg border border-brand-border flex justify-between items-center">
                     <div>
                         <h4 class="font-bold text-xs text-white">Status Pengumuman G-Form</h4>
                         <p id="label-gform" class="text-[11px] text-emerald-400 font-bold">Terbuka untuk Umum</p>
                     </div>
-                    <button id="btn-lock-gform" onclick="toggleLock('gform')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg">
-                        Kunci Fitur
-                    </button>
+                    <button id="btn-lock-gform" onclick="toggleLock('gform')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg">Kunci Fitur</button>
                 </div>
-
                 <div class="bg-brand-dark p-4 rounded-lg border border-brand-border flex justify-between items-center">
                     <div>
                         <h4 class="font-bold text-xs text-white">Status Sidang Pantukhir</h4>
                         <p id="label-pantukhir" class="text-[11px] text-emerald-400 font-bold">Terbuka untuk Umum</p>
                     </div>
-                    <button id="btn-lock-pantukhir" onclick="toggleLock('pantukhir')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg">
-                        Kunci Fitur
-                    </button>
+                    <button id="btn-lock-pantukhir" onclick="toggleLock('pantukhir')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg">Kunci Fitur</button>
                 </div>
             </div>
         </div>
 
-        <!-- FITUR BARU: TAMBAH / UPDATE NAMA PESERTA (FIRESTORE) -->
+        <!-- FITUR 2: TAMBAH STATUS KELULUSAN PESERTA -->
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
             <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
                 <i class="fas fa-user-plus"></i> Tambah / Update Status Kelulusan Peserta
             </h3>
-            <p class="text-xs text-slate-400">Masukkan data peserta baru atau perbarui status kelulusan (G-Form / Pantukhir) langsung tersimpan ke Firestore.</p>
-
             <form onsubmit="saveParticipant(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-brand-dark p-4 rounded-lg border border-brand-border">
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Pilih Kategori Pengumuman</label>
-                    <select id="targetDb" required class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Kategori Pengumuman</label>
+                    <select id="targetDb" required class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
                         <option value="db_gform">Pengumuman G-Form</option>
                         <option value="db_pantukhir">Sidang Pantukhir</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Username Roblox Peserta</label>
-                    <input type="text" id="partUsername" required placeholder="Contoh: Casis_Sabhara12" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                    <input type="text" id="partUsername" required placeholder="Contoh: Casis_Sabhara12" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Status Kelulusan</label>
-                    <select id="partStatus" required class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                    <select id="partStatus" required class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
                         <option value="LULUS">LULUS 🎉</option>
                         <option value="TIDAK LULUS">TIDAK LULUS ❌</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nomor NRP (Khusus Pantukhir)</label>
-                    <input type="text" id="partNrp" placeholder="Contoh: SBH-2026-001" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                    <input type="text" id="partNrp" placeholder="Contoh: SBH-2026-001" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
                 </div>
                 <div class="sm:col-span-2">
-                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Ucapan / Pesan / Keterangan</label>
-                    <textarea id="partMessage" rows="2" required placeholder="Contoh: Selamat! Anda LULUS tahap ini. Silakan bergabung ke Discord official kami untuk arahan selanjutnya." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500"></textarea>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Pesan / Keterangan</label>
+                    <textarea id="partMessage" rows="2" required placeholder="Pesan untuk peserta..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white"></textarea>
                 </div>
                 <div class="sm:col-span-2">
-                    <button type="submit" id="btnSavePart" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg transition w-full">
-                        <i class="fas fa-save mr-1"></i> Simpan / Update Data ke Firestore
+                    <button type="submit" id="btnSavePart" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg w-full">
+                        <i class="fas fa-save mr-1"></i> Simpan Data Peserta
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- FITUR 2: KELOLA GALERI FOTO (MODEL LINK URL) -->
+        <!-- FITUR 3: FITUR BARU - KELOLA HALL OF FAME -->
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
+            <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
+                <i class="fas fa-trophy text-amber-400"></i> Kelola Hall of Fame (hall-of-fame.html)
+            </h3>
+
+            <form onsubmit="addHallOfFame(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-brand-dark p-4 rounded-lg border border-brand-border">
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Username Roblox</label>
+                    <input type="text" id="hofUser" required placeholder="Contoh: EZRA432007" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Pangkat / Angkatan / Badge</label>
+                    <input type="text" id="hofRank" required placeholder="Contoh: Brigadir Polisi Dua" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Link Foto Avatar (Catbox / URL Direct)</label>
+                    <input type="text" id="hofImg" required placeholder="https://files.catbox.moe/xxx.png" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nama RP / Subtitle / Gelar</label>
+                    <input type="text" id="hofDesc" required placeholder='Contoh: "Anak Setya Adhihara"' class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                </div>
+                <div class="sm:col-span-2">
+                    <button type="submit" id="btnHofSubmit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg w-full">
+                        <i class="fas fa-plus-circle mr-1"></i> + Tambahkan Personel ke Hall of Fame
+                    </button>
+                </div>
+            </form>
+
+            <div id="admin-hof-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- FITUR 4: FITUR BARU - KELOLA PENGUMUMAN -->
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
+            <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
+                <i class="fas fa-bullhorn text-amber-400"></i> Kelola Pengumuman (pengumuman.html)
+            </h3>
+
+            <form onsubmit="addAnnouncement(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-brand-dark p-4 rounded-lg border border-brand-border">
+                <div class="sm:col-span-2">
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Judul Pengumuman</label>
+                    <input type="text" id="annTitle" required placeholder="Contoh: PENGUMUMAN PANTUKHIR ANGKATAN 01" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Kategori</label>
+                    <select id="annCategory" required class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
+                        <option value="Kegiatan">Kegiatan</option>
+                        <option value="Seleksi">Seleksi</option>
+                        <option value="Informasi">Informasi</option>
+                    </select>
+                </div>
+                <div class="sm:col-span-3">
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Isi Lengkap Pengumuman</label>
+                    <textarea id="annContent" rows="3" required placeholder="Tuliskan isi pengumuman lengkap di sini..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white"></textarea>
+                </div>
+                <div class="sm:col-span-3">
+                    <button type="submit" id="btnAnnSubmit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg w-full">
+                        <i class="fas fa-paper-plane mr-1"></i> + Terbitkan Pengumuman
+                    </button>
+                </div>
+            </form>
+
+            <div id="admin-ann-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- FITUR 5: KELOLA GALERI FOTO -->
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
             <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
                 <i class="fas fa-images"></i> Kelola Foto Galeri (galeri.html)
             </h3>
 
-            <!-- FORM TAMBAH FOTO -->
             <form onsubmit="addGalleryItem(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-brand-dark p-4 rounded-lg border border-brand-border">
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Link URL / Path Foto</label>
-                    <input type="text" id="galImg" required placeholder="images/foto.png atau https://i.ibb.co/xxx.jpg" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
-                    <p class="text-[10px] text-slate-400 mt-1">Gunakan path folder lokal atau link URL foto dari internet/Discord.</p>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Link Direct Foto (Catbox / URL)</label>
+                    <input type="text" id="galImg" required placeholder="https://files.catbox.moe/xxx.png" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Judul Kegiatan</label>
-                    <input type="text" id="galTitle" required placeholder="Contoh: Apel Gabungan" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                    <input type="text" id="galTitle" required placeholder="Contoh: Apel Gabungan" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Keterangan Singkat</label>
-                    <input type="text" id="galDesc" required placeholder="Keterangan foto..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                    <input type="text" id="galDesc" required placeholder="Keterangan foto..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
                 </div>
                 <div class="sm:col-span-3">
-                    <button type="submit" id="btnSubmitGal" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition w-full sm:w-auto inline-flex items-center justify-center gap-1">
+                    <button type="submit" id="btnSubmitGal" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-lg w-full sm:w-auto">
                         <i class="fas fa-plus-circle"></i> + Tambahkan Foto ke Galeri
                     </button>
                 </div>
             </form>
 
-            <!-- LIST FOTO YANG ADA -->
             <div id="admin-gallery-list" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
         </div>
 
     </div>
 
-    <!-- SDK FIREBASE SDK (COMPAT MODE) -->
+    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // ==========================================
-        // KONFIGURASI FIREBASE FIRESTORE
-        // ==========================================
         const firebaseConfig = {
           apiKey: "AIzaSyAFIO0UFEMspnY2YndZTHW0DsY2BQcJP24",
           authDomain: "sabhara-roblox.firebaseapp.com",
@@ -190,12 +241,10 @@
           appId: "1:226715321603:web:0915fd0ea34becba769536"
         };
 
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // HANDLE LOGIN VIA API /api/login
+        // AUTHENTICATION
         async function handleLogin(e) {
             e.preventDefault();
             const u = document.getElementById('adminUser').value.trim();
@@ -213,7 +262,6 @@
                 });
 
                 const data = await res.json();
-
                 if (res.ok && data.success) {
                     sessionStorage.setItem('admin_logged', 'true');
                     sessionStorage.setItem('admin_token', data.token);
@@ -222,8 +270,7 @@
                     alert(data.message || 'Login Gagal!');
                 }
             } catch (err) {
-                console.error("API Error:", err);
-                alert("Gagal terhubung ke /api/login.\nPastikan website sudah di-deploy ke Vercel agar API serverless dapat berjalan.");
+                alert("Gagal terhubung ke server API /api/login.");
             } finally {
                 btn.innerText = "Masuk ke Admin Panel";
                 btn.disabled = false;
@@ -243,10 +290,12 @@
                 document.body.classList.remove('justify-center', 'items-center');
                 updateLockUI();
                 renderAdminGallery();
+                renderAdminHof();
+                renderAdminAnnouncements();
             }
         }
 
-        // FUNGSI SIMPAN PESERTA KE FIRESTORE
+        // SAVE PARTICIPANT
         async function saveParticipant(e) {
             e.preventDefault();
             const dbName = document.getElementById('targetDb').value;
@@ -256,7 +305,7 @@
             const pesan = document.getElementById('partMessage').value.trim();
             const btn = document.getElementById('btnSavePart');
 
-            btn.innerText = "Menyimpan ke Firestore...";
+            btn.innerText = "Menyimpan...";
             btn.disabled = true;
 
             const payload = {
@@ -267,23 +316,15 @@
 
             try {
                 await db.collection(dbName).doc(username).set(payload);
-                
-                // Backup ke LocalStorage
-                let localDb = JSON.parse(localStorage.getItem(dbName) || '{}');
-                localDb[username] = payload;
-                localStorage.setItem(dbName, JSON.stringify(localDb));
-
-                alert(`Berhasil menyimpan data peserta '${username}' ke ${dbName}!`);
+                alert(`Data '${username}' tersimpan ke ${dbName}!`);
                 e.target.reset();
             } catch (err) {
-                console.error("Firestore Error:", err);
-                // Fallback LocalStorage
                 let localDb = JSON.parse(localStorage.getItem(dbName) || '{}');
                 localDb[username] = payload;
                 localStorage.setItem(dbName, JSON.stringify(localDb));
-                alert("Koneksi Firestore bermasalah, data tersimpan di LocalStorage browser.");
+                alert("Tersimpan di LocalStorage browser.");
             } finally {
-                btn.innerText = "Simpan / Update Data ke Firestore";
+                btn.innerText = "Simpan Data Peserta";
                 btn.disabled = false;
             }
         }
@@ -300,19 +341,187 @@
             const gLocked = localStorage.getItem('lock_gform') === 'true';
             const pLocked = localStorage.getItem('lock_pantukhir') === 'true';
 
-            document.getElementById('label-gform').innerText = gLocked ? 'TERKUNCI (Pengumuman Ditutup)' : 'Terbuka untuk Umum';
+            document.getElementById('label-gform').innerText = gLocked ? 'TERKUNCI' : 'Terbuka untuk Umum';
             document.getElementById('label-gform').className = gLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
             document.getElementById('btn-lock-gform').innerText = gLocked ? 'Buka Akses' : 'Kunci Fitur';
 
-            document.getElementById('label-pantukhir').innerText = pLocked ? 'TERKUNCI (Pengumuman Ditutup)' : 'Terbuka untuk Umum';
+            document.getElementById('label-pantukhir').innerText = pLocked ? 'TERKUNCI' : 'Terbuka untuk Umum';
             document.getElementById('label-pantukhir').className = pLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
             document.getElementById('btn-lock-pantukhir').innerText = pLocked ? 'Buka Akses' : 'Kunci Fitur';
         }
 
-        // GALERI MANAGEMENT (MODEL URL / PATH)
+        // HALL OF FAME MANAGEMENT
+        async function addHallOfFame(e) {
+            e.preventDefault();
+            const username = document.getElementById('hofUser').value.trim();
+            const rank = document.getElementById('hofRank').value.trim();
+            const img = document.getElementById('hofImg').value.trim();
+            const desc = document.getElementById('hofDesc').value.trim();
+            const btn = document.getElementById('btnHofSubmit');
+
+            btn.disabled = true;
+            btn.innerText = "Menambahkan...";
+
+            const payload = { username, rank, img, desc, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+
+            try {
+                await db.collection('hall_of_fame').add(payload);
+                alert('Berhasil menambah ke Hall of Fame!');
+                e.target.reset();
+                renderAdminHof();
+            } catch (err) {
+                let saved = JSON.parse(localStorage.getItem('sabhara_hof') || '[]');
+                saved.unshift(payload);
+                localStorage.setItem('sabhara_hof', JSON.stringify(saved));
+                alert('Tersimpan di LocalStorage!');
+                e.target.reset();
+                renderAdminHof();
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fas fa-plus-circle mr-1"></i> + Tambahkan Personel ke Hall of Fame`;
+            }
+        }
+
+        async function deleteHofItem(docId, index) {
+            if (confirm('Hapus dari Hall of Fame?')) {
+                try {
+                    if (docId) await db.collection('hall_of_fame').doc(docId).delete();
+                    else {
+                        let saved = JSON.parse(localStorage.getItem('sabhara_hof') || '[]');
+                        saved.splice(index, 1);
+                        localStorage.setItem('sabhara_hof', JSON.stringify(saved));
+                    }
+                    renderAdminHof();
+                } catch (err) {
+                    alert('Gagal menghapus data.');
+                }
+            }
+        }
+
+        async function renderAdminHof() {
+            const list = document.getElementById('admin-hof-list');
+            list.innerHTML = `<div class="col-span-full text-center text-xs text-slate-400 py-2">Memuat Hall of Fame...</div>`;
+
+            let items = [];
+            try {
+                const snapshot = await db.collection('hall_of_fame').get();
+                if (!snapshot.empty) {
+                    snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+                }
+            } catch (e) {}
+
+            if (items.length === 0) {
+                items = JSON.parse(localStorage.getItem('sabhara_hof') || '[]');
+            }
+
+            if (items.length === 0) {
+                list.innerHTML = `<div class="col-span-full text-center text-xs text-slate-500 py-2">Belum ada data Hall of Fame.</div>`;
+                return;
+            }
+
+            list.innerHTML = items.map((item, idx) => `
+                <div class="bg-brand-dark p-3 rounded-lg border border-brand-border flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <img src="${item.img}" class="w-10 h-10 rounded-full border border-red-500/50 object-cover" onerror="this.src='https://via.placeholder.com/100'">
+                        <div>
+                            <span class="text-[9px] bg-red-900/40 text-red-400 font-bold px-1.5 py-0.5 rounded uppercase border border-red-800/30">${item.rank}</span>
+                            <h4 class="font-bold text-xs text-white mt-0.5">${item.username}</h4>
+                            <p class="text-[10px] text-slate-400">${item.desc}</p>
+                        </div>
+                    </div>
+                    <button onclick="deleteHofItem('${item.id || ''}', ${idx})" class="bg-rose-900/80 hover:bg-rose-800 text-white p-2 rounded text-xs transition">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ANNOUNCEMENT MANAGEMENT
+        async function addAnnouncement(e) {
+            e.preventDefault();
+            const title = document.getElementById('annTitle').value.trim();
+            const category = document.getElementById('annCategory').value;
+            const content = document.getElementById('annContent').value.trim();
+            const btn = document.getElementById('btnAnnSubmit');
+
+            btn.disabled = true;
+            btn.innerText = "Menerbitkan...";
+
+            const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            const payload = { title, category, content, date: dateStr, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+
+            try {
+                await db.collection('announcements').add(payload);
+                alert('Pengumuman berhasil diterbitkan!');
+                e.target.reset();
+                renderAdminAnnouncements();
+            } catch (err) {
+                let saved = JSON.parse(localStorage.getItem('sabhara_ann') || '[]');
+                saved.unshift(payload);
+                localStorage.setItem('sabhara_ann', JSON.stringify(saved));
+                alert('Tersimpan di LocalStorage!');
+                e.target.reset();
+                renderAdminAnnouncements();
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fas fa-paper-plane mr-1"></i> + Terbitkan Pengumuman`;
+            }
+        }
+
+        async function deleteAnnItem(docId, index) {
+            if (confirm('Hapus pengumuman ini?')) {
+                try {
+                    if (docId) await db.collection('announcements').doc(docId).delete();
+                    else {
+                        let saved = JSON.parse(localStorage.getItem('sabhara_ann') || '[]');
+                        saved.splice(index, 1);
+                        localStorage.setItem('sabhara_ann', JSON.stringify(saved));
+                    }
+                    renderAdminAnnouncements();
+                } catch (err) {
+                    alert('Gagal menghapus pengumuman.');
+                }
+            }
+        }
+
+        async function renderAdminAnnouncements() {
+            const list = document.getElementById('admin-ann-list');
+            list.innerHTML = `<div class="col-span-full text-center text-xs text-slate-400 py-2">Memuat Pengumuman...</div>`;
+
+            let items = [];
+            try {
+                const snapshot = await db.collection('announcements').get();
+                if (!snapshot.empty) {
+                    snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+                }
+            } catch (e) {}
+
+            if (items.length === 0) {
+                items = JSON.parse(localStorage.getItem('sabhara_ann') || '[]');
+            }
+
+            if (items.length === 0) {
+                list.innerHTML = `<div class="col-span-full text-center text-xs text-slate-500 py-2">Belum ada pengumuman.</div>`;
+                return;
+            }
+
+            list.innerHTML = items.map((item, idx) => `
+                <div class="bg-brand-dark p-3 rounded-lg border border-brand-border flex items-center justify-between gap-3">
+                    <div>
+                        <span class="text-[9px] bg-amber-500/10 text-amber-500 border border-amber-500/20 font-bold px-1.5 py-0.5 rounded">${item.category}</span>
+                        <h4 class="font-bold text-xs text-white mt-1 line-clamp-1">${item.title}</h4>
+                        <p class="text-[10px] text-slate-400 line-clamp-1">${item.content}</p>
+                    </div>
+                    <button onclick="deleteAnnItem('${item.id || ''}', ${idx})" class="bg-rose-900/80 hover:bg-rose-800 text-white p-2 rounded text-xs transition">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // GALLERY MANAGEMENT
         const defaultGallery = [
-            { img: "images/1000284937.png", title: "Apel Persiapan Ditsamapta", desc: "Pemeriksaan kerapihan dan kesiapan personel sebelum dinas." },
-            { img: "images/1000284935.png", title: "Uji Kesamaptaan Fisik", desc: "Pelaksanaan ujian fisik dan ketahanan calon siswa." }
+            { img: "images/1000284937.png", title: "Apel Persiapan Ditsamapta", desc: "Pemeriksaan kerapihan dan kesiapan personel sebelum dinas." }
         ];
 
         function getGalleryData() {
@@ -328,49 +537,34 @@
             const btn = document.getElementById('btnSubmitGal');
 
             btn.disabled = true;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> Menyimpan...`;
-
             try {
-                // Simpan ke Firestore
-                await db.collection('gallery').add({
-                    img: imgUrl,
-                    title: title,
-                    desc: desc,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                alert('Foto berhasil ditambahkan ke Firestore!');
+                await db.collection('gallery').add({ img: imgUrl, title, desc, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+                alert('Foto berhasil ditambahkan!');
                 e.target.reset();
                 renderAdminGallery();
             } catch (err) {
-                console.error("Firestore Error, simpan ke LocalStorage:", err);
                 const data = getGalleryData();
-                data.unshift({ img: imgUrl, title: title, desc: desc });
+                data.unshift({ img: imgUrl, title, desc });
                 localStorage.setItem('sabhara_gallery', JSON.stringify(data));
-                alert('Foto berhasil ditambahkan!');
+                alert('Foto ditambahkan!');
                 e.target.reset();
                 renderAdminGallery();
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fas fa-plus-circle"></i> + Tambahkan Foto ke Galeri`;
             }
         }
 
         async function deleteGalleryItem(docId, index) {
             if (confirm('Hapus foto ini dari galeri?')) {
                 try {
-                    if (docId) {
-                        await db.collection('gallery').doc(docId).delete();
-                    } else {
+                    if (docId) await db.collection('gallery').doc(docId).delete();
+                    else {
                         const data = getGalleryData();
                         data.splice(index, 1);
                         localStorage.setItem('sabhara_gallery', JSON.stringify(data));
                     }
                     renderAdminGallery();
                 } catch (err) {
-                    console.error("Gagal hapus Firestore:", err);
-                    const data = getGalleryData();
-                    data.splice(index, 1);
-                    localStorage.setItem('sabhara_gallery', JSON.stringify(data));
                     renderAdminGallery();
                 }
             }
@@ -378,50 +572,24 @@
 
         async function renderAdminGallery() {
             const list = document.getElementById('admin-gallery-list');
-            list.innerHTML = `<div class="col-span-full text-center text-xs text-slate-400 py-4"><i class="fas fa-spinner fa-spin text-amber-500 mr-1"></i> Memuat data galeri...</div>`;
-
+            let items = [];
             try {
-                const snapshot = await db.collection('gallery').orderBy('createdAt', 'desc').get();
+                const snapshot = await db.collection('gallery').get();
                 if (!snapshot.empty) {
-                    let html = '';
-                    let idx = 0;
-                    snapshot.forEach(doc => {
-                        const item = doc.data();
-                        html += `
-                            <div class="bg-brand-dark p-3 rounded-lg border border-brand-border space-y-2 flex flex-col justify-between">
-                                <div>
-                                    <img src="${item.img}" class="h-32 w-full object-cover rounded mb-2" onerror="this.src='https://via.placeholder.com/300x150'">
-                                    <h4 class="font-bold text-xs text-white">${item.title}</h4>
-                                    <p class="text-[11px] text-slate-400 mt-1">${item.desc}</p>
-                                </div>
-                                <button onclick="deleteGalleryItem('${doc.id}', ${idx})" class="w-full bg-rose-900/80 hover:bg-rose-800 text-white font-bold py-1 rounded text-[11px] mt-2 transition">
-                                    <i class="fas fa-trash mr-1"></i> Hapus Foto
-                                </button>
-                            </div>
-                        `;
-                        idx++;
-                    });
-                    list.innerHTML = html;
-                    return;
+                    snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
                 }
-            } catch (err) {
-                console.warn("Firestore error, fallback ke LocalStorage:", err);
-            }
+            } catch (err) {}
 
-            const data = getGalleryData();
-            if (data.length === 0) {
-                list.innerHTML = `<div class="col-span-full text-center text-xs text-slate-500 py-4">Belum ada foto di galeri.</div>`;
-                return;
-            }
+            if (items.length === 0) items = getGalleryData();
 
-            list.innerHTML = data.map((item, idx) => `
-                <div class="bg-brand-dark p-3 rounded-lg border border-brand-border space-y-2 flex flex-col justify-between">
+            list.innerHTML = items.map((item, idx) => `
+                <div class="bg-brand-dark p-3 rounded-lg border border-brand-border flex flex-col justify-between">
                     <div>
-                        <img src="${item.img}" class="h-32 w-full object-cover rounded mb-2" onerror="this.src='https://via.placeholder.com/300x150'">
-                        <h4 class="font-bold text-xs text-white">${item.title}</h4>
-                        <p class="text-[11px] text-slate-400 mt-1">${item.desc}</p>
+                        <img src="${item.img}" class="h-28 w-full object-cover rounded mb-2" onerror="this.src='https://via.placeholder.com/300x150'">
+                        <h4 class="font-bold text-xs text-white line-clamp-1">${item.title}</h4>
+                        <p class="text-[11px] text-slate-400 line-clamp-2 mt-1">${item.desc}</p>
                     </div>
-                    <button onclick="deleteGalleryItem(null, ${idx})" class="w-full bg-rose-900/80 hover:bg-rose-800 text-white font-bold py-1 rounded text-[11px] mt-2 transition">
+                    <button onclick="deleteGalleryItem('${item.id || ''}', ${idx})" class="w-full bg-rose-900/80 hover:bg-rose-800 text-white font-bold py-1 rounded text-[11px] mt-2 transition">
                         <i class="fas fa-trash mr-1"></i> Hapus Foto
                     </button>
                 </div>
@@ -432,4 +600,3 @@
     </script>
 </body>
 </html>
-    
