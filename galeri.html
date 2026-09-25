@@ -1,1 +1,238 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Kegiatan - PUSDIKLAT KORPS SABHARA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            dark: '#0b0f17',
+                            card: '#131924',
+                            border: '#1f293d',
+                            red: '#991b1b',
+                            redhover: '#b91c1c',
+                            gold: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f17; color: #cbd5e1; }</style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-brand-card border-b border-brand-border text-xs py-2 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <span class="bg-brand-red text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">GALERI</span>
+                <span class="text-slate-300">Dokumentasi Kegiatan & Pelatihan Pusdiklat Sabhara</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-medium">
+                <a href="index.html" class="text-amber-400 hover:text-amber-300 flex items-center gap-1.5 transition">
+                    <i class="fas fa-arrow-left text-xs"></i> Kembali ke Beranda Utama
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <nav class="bg-brand-dark/90 backdrop-blur-md border-b border-brand-border sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-brand-card border border-amber-500/30 rounded-lg flex items-center justify-center text-amber-400">
+                        <i class="fas fa-shield-halved text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-sm sm:text-base tracking-wide text-white uppercase leading-tight">PUSDIKLAT KORPS SABHARA</h1>
+                        <p class="text-[10px] text-amber-500 font-semibold uppercase tracking-widest">BAHARKAM POLRI ROBLOX</p>
+                    </div>
+                </a>
+
+                <div class="hidden lg:flex items-center space-x-6 text-xs font-semibold uppercase tracking-wider">
+                    <a href="index.html" class="text-slate-300 hover:text-white transition">Beranda</a>
+                    <a href="index.html#profil" class="text-slate-300 hover:text-white transition">Profil</a>
+                    <a href="index.html#tahapan" class="text-slate-300 hover:text-white transition">Tahapan</a>
+                    <a href="galeri.html" class="text-amber-400 font-bold flex items-center gap-1">
+                        <i class="fas fa-images"></i> Galeri
+                    </a>
+                    <a href="index.html#cek-status" class="text-slate-300 hover:text-white transition">Cek Status</a>
+                    <a href="admin.html" class="bg-brand-card border border-brand-border hover:border-amber-500 text-slate-300 hover:text-amber-400 px-3.5 py-2 rounded-lg font-bold transition">
+                        <i class="fas fa-user-shield mr-1"></i> Admin
+                    </a>
+                </div>
+
+                <div class="lg:hidden">
+                    <button id="menu-btn" class="text-slate-300 text-2xl p-2 focus:outline-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-brand-card border-b border-brand-border px-4 py-4 space-y-3 text-xs font-semibold uppercase">
+            <a href="index.html" class="block text-slate-300 py-1">Beranda Utama</a>
+            <a href="galeri.html" class="block text-amber-400 font-bold py-1"><i class="fas fa-images mr-1"></i> Galeri Kegiatan</a>
+            <a href="index.html#cek-status" class="block text-slate-300 py-1">Cek Status G-Form</a>
+            <a href="admin.html" class="block text-slate-300 py-1"><i class="fas fa-user-shield mr-1"></i> Login Admin</a>
+        </div>
+    </nav>
+
+    <!-- HEADER GALERI -->
+    <header class="bg-brand-dark py-12 border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+            <span class="inline-block bg-brand-card border border-brand-border px-3 py-1 rounded-full text-[11px] font-semibold text-amber-400 uppercase tracking-wider">
+                Dokumentasi Lapangan
+            </span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Galeri & Foto Kegiatan Casis
+            </h2>
+            <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">
+                Kumpulan dokumentasi pelaksanaan apel, latihan kesamaptaan, ujian simulasi, dan sidang Pantukhir di Pusdiklat Korps Sabhara.
+            </p>
+        </div>
+    </header>
+
+    <!-- MAIN GALLERY CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
+        <div id="gallery-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="col-span-full text-center py-12 text-slate-400 text-xs">
+                <i class="fas fa-spinner fa-spin text-amber-500 text-2xl mb-2"></i><br>
+                Memuat foto dari Firestore...
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-8 px-4 text-xs text-slate-400 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <div>
+                <p class="font-bold text-white text-sm">PUSDIKLAT KORPS SABHARA BAHARKAM POLRI RBX</p>
+                <p class="text-slate-500 mt-0.5">Portal Pendaftaran & Informasi Komunitas Roleplay Roblox.</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-slate-400 hover:text-white text-xs">Kembali ke Beranda</a>
+                <span class="text-slate-700">|</span>
+                <a href="admin.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-dark border border-brand-border text-xs font-semibold text-slate-400 hover:text-amber-400 hover:border-amber-500/50 transition">
+                    <i class="fas fa-user-shield text-amber-500"></i> Login Admin
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SDK FIREBASE SDK (COMPAT MODE) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <!-- SCRIPT FETCH GALERI FIRESTORE -->
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyAFIO0UFEMspnY2YndZTHW0DsY2BQcJP24",
+          authDomain: "sabhara-roblox.firebaseapp.com",
+          databaseURL: "https://sabhara-roblox-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "sabhara-roblox",
+          storageBucket: "sabhara-roblox.firebasestorage.app",
+          messagingSenderId: "226715321603",
+          appId: "1:226715321603:web:0915fd0ea34becba769536"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        const defaultGallery = [
+            { 
+                img: "images/1000284937.png", 
+                title: "Apel Persiapan Ditsamapta", 
+                desc: "Pemeriksaan kerapihan dan kesiapan personel sebelum dinas patroli gabungan." 
+            },
+            { 
+                img: "images/1000284935.png", 
+                title: "Uji Kesamaptaan Fisik Casis", 
+                desc: "Pelaksanaan ujian fisik dan ketahanan calon siswa Pusdiklat Korps Sabhara." 
+            }
+        ];
+
+        async function fetchGallery() {
+            const container = document.getElementById('gallery-container');
+            
+            try {
+                const snapshot = await db.collection('gallery').orderBy('createdAt', 'desc').get();
+                
+                if (!snapshot.empty) {
+                    let html = '';
+                    snapshot.forEach(doc => {
+                        const item = doc.data();
+                        html += `
+                            <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-lg hover:border-amber-500/50 transition duration-300 flex flex-col group">
+                                <div class="relative overflow-hidden h-52 bg-brand-dark">
+                                    <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://via.placeholder.com/600x400?text=Foto+Kegiatan+Sabhara'">
+                                </div>
+                                <div class="p-5 space-y-2 flex-grow flex flex-col justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition">${item.title}</h4>
+                                        <p class="text-xs text-slate-400 leading-relaxed mt-1.5">${item.desc}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+                    return;
+                }
+            } catch (err) {
+                console.warn("Error mengambil galeri dari Firestore, beralih ke LocalStorage/Default:", err);
+            }
+
+            // Fallback LocalStorage / Default
+            const saved = localStorage.getItem('sabhara_gallery');
+            const galleryData = saved ? JSON.parse(saved) : defaultGallery;
+
+            if (!galleryData || galleryData.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-16 bg-brand-card border border-brand-border rounded-xl p-8 space-y-2">
+                        <i class="fas fa-images text-slate-600 text-4xl mb-2"></i>
+                        <h3 class="text-white font-bold text-sm">Belum Ada Foto Kegiatan</h3>
+                        <p class="text-xs text-slate-500">Foto kegiatan akan ditambahkan oleh admin melalui Panel Admin.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = galleryData.map((item) => `
+                <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-lg hover:border-amber-500/50 transition duration-300 flex flex-col group">
+                    <div class="relative overflow-hidden h-52 bg-brand-dark">
+                        <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://via.placeholder.com/600x400?text=Foto+Kegiatan+Sabhara'">
+                    </div>
+                    <div class="p-5 space-y-2 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition">${item.title}</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed mt-1.5">${item.desc}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        fetchGallery();
+    </script>
+</body>
+</html>
 
