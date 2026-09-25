@@ -1,1 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman Resmi - PUSDIKLAT SABHARA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { brand: { dark: '#0b0f17', card: '#131924', border: '#1f293d', red: '#991b1b', gold: '#d97706' } }
+                }
+            }
+        }
+    </script>
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f17; color: #cbd5e1; }</style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR -->
+    <nav class="bg-brand-card/90 backdrop-blur-md border-b border-brand-border sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center font-extrabold text-slate-950 text-sm shadow-lg shadow-amber-500/20">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-extrabold text-white tracking-wide">PUSDIKLAT SABHARA</h1>
+                    <p class="text-[10px] text-amber-500 font-semibold tracking-widest uppercase">Pemberitahuan Resmi</p>
+                </div>
+            </a>
+            <a href="index.html" class="text-xs bg-brand-dark hover:bg-slate-800 border border-brand-border text-slate-300 px-3 py-1.5 rounded-lg transition">
+                <i class="fas fa-arrow-left mr-1"></i> Beranda
+            </a>
+        </div>
+    </nav>
+
+    <!-- HEADER TITLE SECTION -->
+    <div class="max-w-4xl mx-auto px-4 pt-10 pb-4 text-center w-full">
+        <span class="text-[10px] font-extrabold tracking-widest text-amber-500 uppercase bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+            INFORMASI RESMI
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-3 uppercase tracking-tight">PENGUMUMAN PUSDIKLATSABHARA</h2>
+        <p class="text-xs text-slate-400 mt-2 max-w-md mx-auto">Informasi terbaru seputar kegiatan, seleksi, dan kebijakan resmi.</p>
+    </div>
+
+    <!-- FILTER KATEGORI -->
+    <div class="max-w-4xl mx-auto px-4 py-2 w-full flex justify-center gap-2 flex-wrap text-xs">
+        <button onclick="filterCategory('semua')" class="btn-filter bg-amber-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-500">Semua</button>
+        <button onclick="filterCategory('Kegiatan')" class="btn-filter bg-brand-dark hover:bg-slate-800 text-slate-300 font-medium px-3 py-1.5 rounded-lg border border-brand-border">Kegiatan</button>
+        <button onclick="filterCategory('Seleksi')" class="btn-filter bg-brand-dark hover:bg-slate-800 text-slate-300 font-medium px-3 py-1.5 rounded-lg border border-brand-border">Seleksi</button>
+        <button onclick="filterCategory('Informasi')" class="btn-filter bg-brand-dark hover:bg-slate-800 text-slate-300 font-medium px-3 py-1.5 rounded-lg border border-brand-border">Informasi</button>
+    </div>
+
+    <!-- MAIN ANNOUNCEMENTS GRID -->
+    <main class="max-w-4xl mx-auto px-4 py-6 w-full flex-1">
+        <div id="announcement-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Loading -->
+            <div class="col-span-full text-center py-12 text-slate-400 text-xs">
+                <i class="fas fa-spinner fa-spin text-2xl text-amber-500 mb-2"></i>
+                <p>Memuat pengumuman...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL MEMBACA PENGUMUMAN LENGKAP -->
+    <div id="annModal" onclick="closeAnnModal()" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-xl max-w-lg w-full overflow-hidden shadow-2xl p-6 space-y-4" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start border-b border-brand-border pb-3">
+                <div>
+                    <span id="modalCat" class="text-[10px] font-extrabold uppercase bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded"></span>
+                    <h3 id="modalTitle" class="font-extrabold text-white text-base mt-2"></h3>
+                    <p id="modalDate" class="text-[10px] text-slate-400 mt-0.5"></p>
+                </div>
+                <button onclick="closeAnnModal()" class="text-slate-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="modalContent" class="text-xs text-slate-300 leading-relaxed whitespace-pre-line max-h-[60vh] overflow-y-auto pr-1"></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-6 text-center text-xs text-slate-500">
+        <p>© 2026 Pusdiklat Korps Sabhara Roblox. All rights reserved.</p>
+    </footer>
+
+    <!-- FIREBASE SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyAFIO0UFEMspnY2YndZTHW0DsY2BQcJP24",
+          authDomain: "sabhara-roblox.firebaseapp.com",
+          databaseURL: "https://sabhara-roblox-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "sabhara-roblox",
+          storageBucket: "sabhara-roblox.firebasestorage.app",
+          messagingSenderId: "226715321603",
+          appId: "1:226715321603:web:0915fd0ea34becba769536"
+        };
+
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let allAnnouncements = [];
+
+        const defaultAnn = [
+            { title: "PENGUMUMAN PANTUKHIR", category: "Seleksi", content: "Pengumuman hasil Sidang Pantukhir telah dapat dicek melalui portal utama website.", date: "25 Sep 2026" },
+            { title: "WEBSITE RESMI PUSDIKLAT SABHARA", category: "Informasi", content: "Selamat datang di website resmi Pusdiklat Korps Sabhara Roblox. Cek halaman pengumuman secara berkala.", date: "24 Sep 2026" }
+        ];
+
+        async function loadAnnouncements() {
+            try {
+                const snapshot = await db.collection('announcements').orderBy('createdAt', 'desc').get();
+                if (!snapshot.empty) {
+                    allAnnouncements = [];
+                    snapshot.forEach(doc => allAnnouncements.push(doc.data()));
+                }
+            } catch (err) {}
+
+            if (allAnnouncements.length === 0) {
+                const localData = localStorage.getItem('sabhara_ann');
+                allAnnouncements = localData ? JSON.parse(localData) : defaultAnn;
+            }
+
+            renderAnnouncements(allAnnouncements);
+        }
+
+        function renderAnnouncements(items) {
+            const container = document.getElementById('announcement-grid');
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-slate-500 text-xs">
+                        <i class="fas fa-bullhorn text-3xl mb-2 text-slate-600"></i>
+                        <p>Belum ada pengumuman di kategori ini.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = items.map((item, idx) => `
+                <div onclick="openAnnModal('${escapeHtml(item.title)}', '${item.category}', '${escapeHtml(item.content)}', '${item.date || ''}')" 
+                     class="bg-brand-card/90 border border-brand-border hover:border-amber-500/40 p-4 rounded-xl flex flex-col justify-between space-y-3 cursor-pointer shadow-lg transition duration-200 group">
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-[10px]">
+                            <span class="font-extrabold uppercase bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded">${item.category}</span>
+                            <span class="text-slate-500"><i class="far fa-clock mr-1"></i>${item.date || '-'}</span>
+                        </div>
+                        <h3 class="font-extrabold text-white text-sm group-hover:text-amber-400 transition line-clamp-1 flex items-center gap-1.5">
+                            <i class="fas fa-bullhorn text-xs text-amber-500"></i> ${item.title}
+                        </h3>
+                        <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${item.content}</p>
+                    </div>
+                    <div class="pt-2 border-t border-brand-border/60 text-[11px] text-red-500 font-bold flex items-center justify-between group-hover:text-amber-400 transition">
+                        <span>Baca Selengkapnya</span>
+                        <i class="fas fa-arrow-right text-[10px]"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(cat) {
+            const btns = document.querySelectorAll('.btn-filter');
+            btns.forEach(b => {
+                b.className = 'btn-filter bg-brand-dark hover:bg-slate-800 text-slate-300 font-medium px-3 py-1.5 rounded-lg border border-brand-border';
+                if (b.innerText.toLowerCase() === cat.toLowerCase() || (cat === 'semua' && b.innerText === 'Semua')) {
+                    b.className = 'btn-filter bg-amber-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg border border-amber-500';
+                }
+            });
+
+            if (cat === 'semua') renderAnnouncements(allAnnouncements);
+            else renderAnnouncements(allAnnouncements.filter(a => a.category === cat));
+        }
+
+        function escapeHtml(str) {
+            return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        function openAnnModal(title, category, content, date) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalCat').innerText = category;
+            document.getElementById('modalContent').innerText = content;
+            document.getElementById('modalDate').innerText = date ? 'Diterbitkan: ' + date : '';
+            document.getElementById('annModal').classList.remove('hidden');
+        }
+
+        function closeAnnModal() {
+            document.getElementById('annModal').classList.add('hidden');
+        }
+
+        loadAnnouncements();
+    </script>
+</body>
+  </html>
 
