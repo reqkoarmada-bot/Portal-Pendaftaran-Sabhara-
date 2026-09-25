@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall of Fame - PUSDIKLAT SABHARA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { brand: { dark: '#0b0f17', card: '#131924', border: '#1f293d', red: '#991b1b', gold: '#d97706' } }
+                }
+            }
+        }
+    </script>
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f17; color: #cbd5e1; }</style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR -->
+    <nav class="bg-brand-card/90 backdrop-blur-md border-b border-brand-border sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center font-extrabold text-slate-950 text-sm shadow-lg shadow-amber-500/20">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-extrabold text-white tracking-wide">PUSDIKLAT SABHARA</h1>
+                    <p class="text-[10px] text-amber-500 font-semibold tracking-widest uppercase">Penghargaan Terbaik</p>
+                </div>
+            </a>
+            <a href="index.html" class="text-xs bg-brand-dark hover:bg-slate-800 border border-brand-border text-slate-300 px-3 py-1.5 rounded-lg transition">
+                <i class="fas fa-arrow-left mr-1"></i> Beranda
+            </a>
+        </div>
+    </nav>
+
+    <!-- HEADER TITLE SECTION -->
+    <div class="max-w-4xl mx-auto px-4 pt-10 pb-6 text-center w-full">
+        <span class="text-[10px] font-extrabold tracking-widest text-red-500 uppercase bg-red-950/40 px-3 py-1 rounded-full border border-red-800/40 inline-flex items-center gap-1.5 shadow-lg">
+            <i class="fas fa-trophy text-amber-500"></i> PENGHARGAAN
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-white mt-3 uppercase tracking-tight">HALL OF FAME</h2>
+        <p class="text-xs text-slate-400 mt-2 max-w-md mx-auto">Siswa terbaik & personel berprestasi di setiap angkatan Pusdiklat Korps Sabhara.</p>
+    </div>
+
+    <!-- MAIN CARDS CONTAINER -->
+    <main class="max-w-4xl mx-auto px-4 py-6 w-full flex-1">
+        <div id="hof-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Loading -->
+            <div class="col-span-full text-center py-12 text-slate-400 text-xs">
+                <i class="fas fa-spinner fa-spin text-2xl text-amber-500 mb-2"></i>
+                <p>Memuat Hall of Fame...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-card border-t border-brand-border py-6 text-center text-xs text-slate-500">
+        <p>© 2026 Pusdiklat Korps Sabhara Roblox. All rights reserved.</p>
+    </footer>
+
+    <!-- FIREBASE SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyAFIO0UFEMspnY2YndZTHW0DsY2BQcJP24",
+          authDomain: "sabhara-roblox.firebaseapp.com",
+          databaseURL: "https://sabhara-roblox-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "sabhara-roblox",
+          storageBucket: "sabhara-roblox.firebasestorage.app",
+          messagingSenderId: "226715321603",
+          appId: "1:226715321603:web:0915fd0ea34becba769536"
+        };
+
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const defaultHof = [
+            { username: "EZRA432007", rank: "Brigadir Polisi Dua", img: "https://files.catbox.moe/cfopgf.png", desc: '"Anak Setya Adhihara"' },
+            { username: "PRIBUMI_INDONESIA", rank: "Brigadir Polisi Dua", img: "https://files.catbox.moe/cfopgf.png", desc: '"Kusuma Marga Raksa"' }
+        ];
+
+        async function loadHof() {
+            const container = document.getElementById('hof-grid');
+            let items = [];
+
+            try {
+                const snapshot = await db.collection('hall_of_fame').orderBy('createdAt', 'desc').get();
+                if (!snapshot.empty) {
+                    snapshot.forEach(doc => items.push(doc.data()));
+                }
+            } catch (err) {}
+
+            if (items.length === 0) {
+                const localData = localStorage.getItem('sabhara_hof');
+                items = localData ? JSON.parse(localData) : defaultHof;
+            }
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-slate-500 text-xs">
+                        <i class="fas fa-trophy text-3xl mb-2 text-slate-600"></i>
+                        <p>Belum ada siswa di Hall of Fame.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="bg-brand-card/90 border border-brand-border/80 hover:border-red-600/40 p-4 rounded-xl flex items-center gap-4 shadow-xl transition-all duration-300 group">
+                    <div class="relative shrink-0">
+                        <div class="w-14 h-14 rounded-full border-2 border-red-600/80 p-0.5 shadow-lg shadow-red-900/30 overflow-hidden bg-brand-dark flex items-center justify-center">
+                            <img src="${item.img}" alt="${item.username}" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition duration-300" onerror="this.src='https://via.placeholder.com/150'">
+                        </div>
+                    </div>
+                    <div class="space-y-1 overflow-hidden">
+                        <span class="inline-block text-[9px] font-extrabold uppercase bg-red-950/60 text-red-400 border border-red-800/50 px-2 py-0.5 rounded tracking-wider">
+                            <i class="fas fa-shield mr-1"></i>${item.rank}
+                        </span>
+                        <h3 class="font-extrabold text-white text-sm sm:text-base tracking-wide truncate group-hover:text-amber-400 transition">${item.username}</h3>
+                        <p class="text-xs text-slate-400 italic line-clamp-1 font-medium">${item.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        loadHof();
+    </script>
+</body>
+</html>
 
