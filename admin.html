@@ -54,7 +54,7 @@
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div>
                 <h2 class="text-xl font-extrabold text-white">PANEL KONTROL PUSDIKLAT SABHARA</h2>
-                <p class="text-xs text-slate-400">Atur penguncian fitur, kelola kelulusan casis, & galeri foto</p>
+                <p class="text-xs text-slate-400">Atur penguncian fitur, kelola data kelulusan peserta, & galeri foto</p>
             </div>
             <div class="flex gap-2">
                 <a href="index.html" target="_blank" class="bg-brand-dark border border-brand-border text-slate-300 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition">
@@ -96,6 +96,48 @@
             </div>
         </div>
 
+        <!-- FITUR BARU: TAMBAH / UPDATE NAMA PESERTA (FIRESTORE) -->
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
+            <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
+                <i class="fas fa-user-plus"></i> Tambah / Update Status Kelulusan Peserta
+            </h3>
+            <p class="text-xs text-slate-400">Masukkan data peserta baru atau perbarui status kelulusan (G-Form / Pantukhir) langsung tersimpan ke Firestore.</p>
+
+            <form onsubmit="saveParticipant(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-brand-dark p-4 rounded-lg border border-brand-border">
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Pilih Kategori Pengumuman</label>
+                    <select id="targetDb" required class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                        <option value="db_gform">Pengumuman G-Form</option>
+                        <option value="db_pantukhir">Sidang Pantukhir</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Username Roblox Peserta</label>
+                    <input type="text" id="partUsername" required placeholder="Contoh: Casis_Sabhara12" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Status Kelulusan</label>
+                    <select id="partStatus" required class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                        <option value="LULUS">LULUS 🎉</option>
+                        <option value="TIDAK LULUS">TIDAK LULUS ❌</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nomor NRP (Khusus Pantukhir)</label>
+                    <input type="text" id="partNrp" placeholder="Contoh: SBH-2026-001" class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Ucapan / Pesan / Keterangan</label>
+                    <textarea id="partMessage" rows="2" required placeholder="Contoh: Selamat! Anda LULUS tahap ini. Silakan bergabung ke Discord official kami untuk arahan selanjutnya." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500"></textarea>
+                </div>
+                <div class="sm:col-span-2">
+                    <button type="submit" id="btnSavePart" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg transition w-full">
+                        <i class="fas fa-save mr-1"></i> Simpan / Update Data ke Firestore
+                    </button>
+                </div>
+            </form>
+        </div>
+
         <!-- FITUR 2: KELOLA GALERI FOTO -->
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
             <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
@@ -129,7 +171,29 @@
 
     </div>
 
+    <!-- SDK FIREBASE SDK (COMPAT MODE) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
     <script>
+        // ==========================================
+        // KONFIGURASI FIREBASE FIRESTORE
+        // ==========================================
+        const firebaseConfig = {
+          apiKey: "AIzaSyAFIO0UFEMspnY2YndZTHW0DsY2BQcJP24",
+          authDomain: "sabhara-roblox.firebaseapp.com",
+          databaseURL: "https://sabhara-roblox-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "sabhara-roblox",
+          storageBucket: "sabhara-roblox.firebasestorage.app",
+          messagingSenderId: "226715321603",
+          appId: "1:226715321603:web:0915fd0ea34becba769536"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
         // HANDLE LOGIN VIA API /api/login
         async function handleLogin(e) {
             e.preventDefault();
@@ -141,7 +205,6 @@
             btn.disabled = true;
 
             try {
-                // Request ke Folder API
                 const res = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -179,6 +242,48 @@
                 document.body.classList.remove('justify-center', 'items-center');
                 updateLockUI();
                 renderAdminGallery();
+            }
+        }
+
+        // FUNGSI SIMPAN PESERTA KE FIRESTORE
+        async function saveParticipant(e) {
+            e.preventDefault();
+            const dbName = document.getElementById('targetDb').value;
+            const username = document.getElementById('partUsername').value.trim().toLowerCase();
+            const status = document.getElementById('partStatus').value;
+            const nrp = document.getElementById('partNrp').value.trim();
+            const pesan = document.getElementById('partMessage').value.trim();
+            const btn = document.getElementById('btnSavePart');
+
+            btn.innerText = "Menyimpan ke Firestore...";
+            btn.disabled = true;
+
+            const payload = {
+                status: dbName === 'db_pantukhir' && status === 'LULUS' ? 'LULUS PANTUKHIR' : status,
+                pesan: pesan,
+                nrp: nrp || '-'
+            };
+
+            try {
+                await db.collection(dbName).doc(username).set(payload);
+                
+                // Backup ke LocalStorage
+                let localDb = JSON.parse(localStorage.getItem(dbName) || '{}');
+                localDb[username] = payload;
+                localStorage.setItem(dbName, JSON.stringify(localDb));
+
+                alert(`Berhasil menyimpan data peserta '${username}' ke ${dbName}!`);
+                e.target.reset();
+            } catch (err) {
+                console.error("Firestore Error:", err);
+                // Fallback LocalStorage
+                let localDb = JSON.parse(localStorage.getItem(dbName) || '{}');
+                localDb[username] = payload;
+                localStorage.setItem(dbName, JSON.stringify(localDb));
+                alert("Koneksi Firestore bermasalah, data tersimpan di LocalStorage browser.");
+            } finally {
+                btn.innerText = "Simpan / Update Data ke Firestore";
+                btn.disabled = false;
             }
         }
 
@@ -254,5 +359,5 @@
         renderAdminView();
     </script>
 </body>
-  </html>
+</html>
 
