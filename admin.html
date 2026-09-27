@@ -69,22 +69,30 @@
         <!-- FITUR 1: KONTROL KUNCI FITUR -->
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4">
             <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
-                <i class="fas fa-lock"></i> Kunci / Buka Fitur Pengumuman Kelulusan
+                <i class="fas fa-lock"></i> Kunci / Buka Fitur Akses
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                <!-- FITUR BARU: KUNCI PENGISIAN G-FORM -->
                 <div class="bg-brand-dark p-4 rounded-lg border border-brand-border flex justify-between items-center">
                     <div>
-                        <h4 class="font-bold text-xs text-white">Status Pengumuman G-Form</h4>
-                        <p id="label-gform" class="text-[11px] text-emerald-400 font-bold">Memuat status...</p>
+                        <h4 class="font-bold text-xs text-white">Pengisian G-Form</h4>
+                        <p id="label-fill-gform" class="text-[11px] text-emerald-400 font-bold">Memuat status...</p>
                     </div>
-                    <button id="btn-lock-gform" onclick="toggleLock('gform')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg transition hover:bg-amber-400">Kunci Fitur</button>
+                    <button id="btn-lock-fill-gform" onclick="toggleLock('fill_gform')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-3 py-2 rounded-lg transition hover:bg-amber-400">Kunci Fitur</button>
                 </div>
                 <div class="bg-brand-dark p-4 rounded-lg border border-brand-border flex justify-between items-center">
                     <div>
-                        <h4 class="font-bold text-xs text-white">Status Sidang Pantukhir</h4>
+                        <h4 class="font-bold text-xs text-white">Hasil G-Form</h4>
+                        <p id="label-gform" class="text-[11px] text-emerald-400 font-bold">Memuat status...</p>
+                    </div>
+                    <button id="btn-lock-gform" onclick="toggleLock('gform')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-3 py-2 rounded-lg transition hover:bg-amber-400">Kunci Fitur</button>
+                </div>
+                <div class="bg-brand-dark p-4 rounded-lg border border-brand-border flex justify-between items-center">
+                    <div>
+                        <h4 class="font-bold text-xs text-white">Sidang Pantukhir</h4>
                         <p id="label-pantukhir" class="text-[11px] text-emerald-400 font-bold">Memuat status...</p>
                     </div>
-                    <button id="btn-lock-pantukhir" onclick="toggleLock('pantukhir')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg transition hover:bg-amber-400">Kunci Fitur</button>
+                    <button id="btn-lock-pantukhir" onclick="toggleLock('pantukhir')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-3 py-2 rounded-lg transition hover:bg-amber-400">Kunci Fitur</button>
                 </div>
             </div>
         </div>
@@ -258,7 +266,7 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        let lockState = { lock_gform: false, lock_pantukhir: false };
+        let lockState = { lock_gform: false, lock_pantukhir: false, lock_fill_gform: false };
 
         // AUTHENTICATION
         async function handleLogin(e) {
@@ -321,6 +329,7 @@
                     lockState = doc.data();
                 } else {
                     lockState = {
+                        lock_fill_gform: localStorage.getItem('lock_fill_gform') === 'true',
                         lock_gform: localStorage.getItem('lock_gform') === 'true',
                         lock_pantukhir: localStorage.getItem('lock_pantukhir') === 'true'
                     };
@@ -347,8 +356,13 @@
         }
 
         function updateLockUI() {
+            const fillGLocked = !!lockState.lock_fill_gform;
             const gLocked = !!lockState.lock_gform;
             const pLocked = !!lockState.lock_pantukhir;
+
+            document.getElementById('label-fill-gform').innerText = fillGLocked ? 'TERKUNCI' : 'Terbuka untuk Umum';
+            document.getElementById('label-fill-gform').className = fillGLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
+            document.getElementById('btn-lock-fill-gform').innerText = fillGLocked ? 'Buka Akses' : 'Kunci Fitur';
 
             document.getElementById('label-gform').innerText = gLocked ? 'TERKUNCI' : 'Terbuka untuk Umum';
             document.getElementById('label-gform').className = gLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
