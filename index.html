@@ -49,7 +49,7 @@
                 <span class="text-slate-300">Pendaftaran BGC & Seleksi Casis Sabhara Gelombang Aktif Telah Dibuka</span>
             </div>
             <div class="flex items-center gap-4 text-xs font-medium">
-                <a href="https://forms.google.com" target="_blank" class="text-amber-400 hover:text-amber-300 flex items-center gap-1.5 transition">
+                <a href="https://forms.google.com" target="_blank" class="gform-fill-link text-amber-400 hover:text-amber-300 flex items-center gap-1.5 transition">
                     <i class="fas fa-file-pen text-xs"></i> Link Formulir G-Form
                 </a>
                 <span class="text-slate-700">|</span>
@@ -91,7 +91,7 @@
                     <a href="https://discord.gg" target="_blank" class="text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1">
                         <i class="fab fa-discord"></i> Discord
                     </a>
-                    <a href="https://forms.google.com" target="_blank" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg font-bold transition flex items-center gap-1.5 shadow-sm">
+                    <a href="https://forms.google.com" target="_blank" class="gform-fill-link bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg font-bold transition flex items-center gap-1.5 shadow-sm">
                         <i class="fas fa-file-pen"></i> G-FORM
                     </a>
                     <a href="#pantukhir" class="bg-brand-red hover:bg-brand-redhover text-white px-3 py-2 rounded-lg font-bold transition">
@@ -115,7 +115,7 @@
             <a href="hall-of-fame.html" class="block text-amber-400 font-bold py-1"><i class="fas fa-trophy mr-1"></i> Hall of Fame</a>
             <a href="galeri.html" class="block text-amber-400 font-bold py-1"><i class="fas fa-images mr-1"></i> Galeri Kegiatan</a>
             <a href="https://discord.gg" target="_blank" class="block text-indigo-400 font-bold py-1"><i class="fab fa-discord mr-1"></i> Join Discord Official</a>
-            <a href="https://forms.google.com" target="_blank" class="block text-amber-400 font-bold py-1"><i class="fas fa-file-pen mr-1"></i> Isi Formulir G-Form</a>
+            <a href="https://forms.google.com" target="_blank" class="gform-fill-link block text-amber-400 font-bold py-1"><i class="fas fa-file-pen mr-1"></i> Isi Formulir G-Form</a>
             <a href="#cek-status" class="block text-slate-300 py-1">Cek Status Hasil G-Form</a>
             <a href="#pantukhir" class="block text-red-400 font-bold py-1">Menu Pantukhir</a>
         </div>
@@ -136,7 +136,7 @@
             </p>
 
             <div class="pt-3 flex flex-wrap justify-center gap-3 text-xs font-bold">
-                <a href="https://forms.google.com" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-5 py-3 rounded-lg transition flex items-center gap-2 shadow-lg">
+                <a href="https://forms.google.com" target="_blank" class="gform-fill-link bg-amber-500 hover:bg-amber-600 text-slate-950 px-5 py-3 rounded-lg transition flex items-center gap-2 shadow-lg">
                     <i class="fas fa-file-pen text-sm"></i> Isi Formulir G-Form
                 </a>
                 <a href="galeri.html" class="bg-brand-card hover:bg-slate-800 border border-brand-border text-amber-400 px-5 py-3 rounded-lg transition flex items-center gap-2 shadow-lg">
@@ -228,11 +228,11 @@
                 <div class="space-y-3">
                     <div class="flex justify-between items-center border-b border-brand-border pb-3">
                         <h3 class="text-base font-bold text-white flex items-center gap-2"><i class="fas fa-file-pen text-amber-500"></i> 1. Pengisian Formulir G-Form</h3>
-                        <span class="bg-emerald-950/80 text-emerald-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-800">Status: Aktif</span>
+                        <span id="badge-fill-gform-status" class="bg-emerald-950/80 text-emerald-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-800">Status: Aktif</span>
                     </div>
                     <p class="text-xs text-slate-300 leading-relaxed">Bagi casis yang telah menyelesaikan verifikasi BGC di Discord, silakan isi formulir resmi.</p>
                 </div>
-                <a href="https://forms.google.com" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 px-4 rounded-lg text-xs text-center transition flex items-center justify-center gap-2 mt-4 shadow-lg">
+                <a href="https://forms.google.com" target="_blank" class="gform-fill-link bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 px-4 rounded-lg text-xs text-center transition flex items-center justify-center gap-2 mt-4 shadow-lg">
                     <i class="fas fa-external-link-alt"></i> Buka Google Form
                 </a>
             </div>
@@ -336,9 +336,44 @@
         }
         const db = firebase.firestore();
 
+        let isFillGformLocked = false;
+
         document.getElementById('menu-btn').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
+
+        // TANGANI KLIK LINK G-FORM JIKA STATUS DILOCK
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('.gform-fill-link');
+            if (link && isFillGformLocked) {
+                e.preventDefault();
+                alert("Pengisian Formulir G-Form saat ini sedang DITUTUP oleh panitia seleksi.");
+            }
+        });
+
+        function updateFillGformUI(locked) {
+            isFillGformLocked = locked;
+            const badge = document.getElementById('badge-fill-gform-status');
+            const fillLinks = document.querySelectorAll('.gform-fill-link');
+
+            if (badge) {
+                if (locked) {
+                    badge.innerText = 'Status: Ditutup';
+                    badge.className = 'bg-rose-950/80 text-rose-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-rose-800';
+                } else {
+                    badge.innerText = 'Status: Aktif';
+                    badge.className = 'bg-emerald-950/80 text-emerald-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-800';
+                }
+            }
+
+            fillLinks.forEach(link => {
+                if (locked) {
+                    link.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    link.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            });
+        }
 
         // LISTEN REALTIME KUNCI FITUR DARI FIRESTORE
         function listenLocks() {
@@ -349,7 +384,10 @@
                 if (doc.exists) {
                     const data = doc.data();
 
-                    // Kunci G-Form
+                    // Kunci Pengisian G-Form
+                    updateFillGformUI(!!data.lock_fill_gform);
+
+                    // Kunci Cek Hasil G-Form
                     if (data.lock_gform) {
                         overlayGform.classList.remove('hidden');
                     } else {
@@ -365,9 +403,11 @@
                 }
             }, (error) => {
                 console.warn("Firestore error, menggunakan fallback LocalStorage:", error);
+                const isFillLocked = localStorage.getItem('lock_fill_gform') === 'true';
                 const isGformLocked = localStorage.getItem('lock_gform') === 'true';
                 const isPantukhirLocked = localStorage.getItem('lock_pantukhir') === 'true';
 
+                updateFillGformUI(isFillLocked);
                 if (isGformLocked) document.getElementById('lock-overlay-gform').classList.remove('hidden');
                 if (isPantukhirLocked) document.getElementById('lock-overlay-pantukhir').classList.remove('hidden');
             });
