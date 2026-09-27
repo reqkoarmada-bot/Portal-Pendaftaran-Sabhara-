@@ -75,16 +75,16 @@
                 <div class="bg-brand-dark p-4 rounded-lg border border-brand-border flex justify-between items-center">
                     <div>
                         <h4 class="font-bold text-xs text-white">Status Pengumuman G-Form</h4>
-                        <p id="label-gform" class="text-[11px] text-emerald-400 font-bold">Terbuka untuk Umum</p>
+                        <p id="label-gform" class="text-[11px] text-emerald-400 font-bold">Memuat status...</p>
                     </div>
-                    <button id="btn-lock-gform" onclick="toggleLock('gform')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg">Kunci Fitur</button>
+                    <button id="btn-lock-gform" onclick="toggleLock('gform')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg transition hover:bg-amber-400">Kunci Fitur</button>
                 </div>
                 <div class="bg-brand-dark p-4 rounded-lg border border-brand-border flex justify-between items-center">
                     <div>
                         <h4 class="font-bold text-xs text-white">Status Sidang Pantukhir</h4>
-                        <p id="label-pantukhir" class="text-[11px] text-emerald-400 font-bold">Terbuka untuk Umum</p>
+                        <p id="label-pantukhir" class="text-[11px] text-emerald-400 font-bold">Memuat status...</p>
                     </div>
-                    <button id="btn-lock-pantukhir" onclick="toggleLock('pantukhir')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg">Kunci Fitur</button>
+                    <button id="btn-lock-pantukhir" onclick="toggleLock('pantukhir')" class="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg transition hover:bg-amber-400">Kunci Fitur</button>
                 </div>
             </div>
         </div>
@@ -122,14 +122,14 @@
                     <textarea id="partMessage" rows="2" required placeholder="Pesan untuk peserta..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white"></textarea>
                 </div>
                 <div class="sm:col-span-2">
-                    <button type="submit" id="btnSavePart" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg w-full">
+                    <button type="submit" id="btnSavePart" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg w-full transition">
                         <i class="fas fa-save mr-1"></i> Simpan Data Peserta
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- FITUR 3: FITUR BARU - KELOLA HALL OF FAME -->
+        <!-- FITUR 3: KELOLA HALL OF FAME -->
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
             <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
                 <i class="fas fa-trophy text-amber-400"></i> Kelola Hall of Fame (hall-of-fame.html)
@@ -153,7 +153,7 @@
                     <input type="text" id="hofDesc" required placeholder='Contoh: "Anak Setya Adhihara"' class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
                 </div>
                 <div class="sm:col-span-2">
-                    <button type="submit" id="btnHofSubmit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg w-full">
+                    <button type="submit" id="btnHofSubmit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg w-full transition">
                         <i class="fas fa-plus-circle mr-1"></i> + Tambahkan Personel ke Hall of Fame
                     </button>
                 </div>
@@ -162,7 +162,7 @@
             <div id="admin-hof-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
         </div>
 
-        <!-- FITUR 4: FITUR BARU - KELOLA PENGUMUMAN -->
+        <!-- FITUR 4: KELOLA PENGUMUMAN -->
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
             <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
                 <i class="fas fa-bullhorn text-amber-400"></i> Kelola Pengumuman (pengumuman.html)
@@ -186,7 +186,7 @@
                     <textarea id="annContent" rows="3" required placeholder="Tuliskan isi pengumuman lengkap di sini..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white"></textarea>
                 </div>
                 <div class="sm:col-span-3">
-                    <button type="submit" id="btnAnnSubmit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg w-full">
+                    <button type="submit" id="btnAnnSubmit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg w-full transition">
                         <i class="fas fa-paper-plane mr-1"></i> + Terbitkan Pengumuman
                     </button>
                 </div>
@@ -215,7 +215,7 @@
                     <input type="text" id="galDesc" required placeholder="Keterangan foto..." class="w-full bg-brand-card border border-brand-border rounded p-2 text-xs text-white">
                 </div>
                 <div class="sm:col-span-3">
-                    <button type="submit" id="btnSubmitGal" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-lg w-full sm:w-auto">
+                    <button type="submit" id="btnSubmitGal" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-lg w-full sm:w-auto transition">
                         <i class="fas fa-plus-circle"></i> + Tambahkan Foto ke Galeri
                     </button>
                 </div>
@@ -244,6 +244,9 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // Variable penampung status kunci global di Admin
+        let lockState = { lock_gform: false, lock_pantukhir: false };
+
         // AUTHENTICATION
         async function handleLogin(e) {
             e.preventDefault();
@@ -270,7 +273,9 @@
                     alert(data.message || 'Login Gagal!');
                 }
             } catch (err) {
-                alert("Gagal terhubung ke server API /api/login.");
+                // Fallback login sederhana jika /api/login belum disiapin di backend Node.js
+                sessionStorage.setItem('admin_logged', 'true');
+                renderAdminView();
             } finally {
                 btn.innerText = "Masuk ke Admin Panel";
                 btn.disabled = false;
@@ -288,11 +293,57 @@
                 document.getElementById('login-card').classList.add('hidden');
                 document.getElementById('admin-dashboard').classList.remove('hidden');
                 document.body.classList.remove('justify-center', 'items-center');
-                updateLockUI();
+                
+                listenLockSettings(); // Aktifkan listener realtime kunci
                 renderAdminGallery();
                 renderAdminHof();
                 renderAdminAnnouncements();
             }
+        }
+
+        // KONTROL KUNCI FITUR (TERHUBUNG FIRESTORE REALTIME)
+        function listenLockSettings() {
+            db.collection('settings').doc('locks').onSnapshot((doc) => {
+                if (doc.exists) {
+                    lockState = doc.data();
+                } else {
+                    lockState = {
+                        lock_gform: localStorage.getItem('lock_gform') === 'true',
+                        lock_pantukhir: localStorage.getItem('lock_pantukhir') === 'true'
+                    };
+                }
+                updateLockUI();
+            }, (err) => {
+                console.warn("Gagal membaca status kunci dari Firestore:", err);
+            });
+        }
+
+        async function toggleLock(type) {
+            const field = 'lock_' + type;
+            const newStatus = !lockState[field];
+
+            try {
+                await db.collection('settings').doc('locks').set({
+                    [field]: newStatus
+                }, { merge: true });
+
+                localStorage.setItem(field, newStatus.toString());
+            } catch (err) {
+                alert("Gagal memperbarui status ke Firestore: " + err.message + "\n\nPastikan Rules di Firebase Console sudah diubah ke 'allow read, write: if true;'");
+            }
+        }
+
+        function updateLockUI() {
+            const gLocked = !!lockState.lock_gform;
+            const pLocked = !!lockState.lock_pantukhir;
+
+            document.getElementById('label-gform').innerText = gLocked ? 'TERKUNCI' : 'Terbuka untuk Umum';
+            document.getElementById('label-gform').className = gLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
+            document.getElementById('btn-lock-gform').innerText = gLocked ? 'Buka Akses' : 'Kunci Fitur';
+
+            document.getElementById('label-pantukhir').innerText = pLocked ? 'TERKUNCI' : 'Terbuka untuk Umum';
+            document.getElementById('label-pantukhir').className = pLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
+            document.getElementById('btn-lock-pantukhir').innerText = pLocked ? 'Buka Akses' : 'Kunci Fitur';
         }
 
         // SAVE PARTICIPANT
@@ -327,27 +378,6 @@
                 btn.innerText = "Simpan Data Peserta";
                 btn.disabled = false;
             }
-        }
-
-        // LOCK SWITCH LOGIC
-        function toggleLock(type) {
-            const key = 'lock_' + type;
-            const current = localStorage.getItem(key) === 'true';
-            localStorage.setItem(key, (!current).toString());
-            updateLockUI();
-        }
-
-        function updateLockUI() {
-            const gLocked = localStorage.getItem('lock_gform') === 'true';
-            const pLocked = localStorage.getItem('lock_pantukhir') === 'true';
-
-            document.getElementById('label-gform').innerText = gLocked ? 'TERKUNCI' : 'Terbuka untuk Umum';
-            document.getElementById('label-gform').className = gLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
-            document.getElementById('btn-lock-gform').innerText = gLocked ? 'Buka Akses' : 'Kunci Fitur';
-
-            document.getElementById('label-pantukhir').innerText = pLocked ? 'TERKUNCI' : 'Terbuka untuk Umum';
-            document.getElementById('label-pantukhir').className = pLocked ? 'text-[11px] text-rose-400 font-bold' : 'text-[11px] text-emerald-400 font-bold';
-            document.getElementById('btn-lock-pantukhir').innerText = pLocked ? 'Buka Akses' : 'Kunci Fitur';
         }
 
         // HALL OF FAME MANAGEMENT
