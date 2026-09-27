@@ -89,11 +89,13 @@
             </div>
         </div>
 
-        <!-- FITUR 2: TAMBAH STATUS KELULUSAN PESERTA -->
+        <!-- FITUR 2: TAMBAH & HAPUS STATUS KELULUSAN PESERTA -->
         <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-6">
             <h3 class="text-sm font-bold text-amber-500 uppercase flex items-center gap-2">
-                <i class="fas fa-user-plus"></i> Tambah / Update Status Kelulusan Peserta
+                <i class="fas fa-user-plus"></i> Kelola Status Kelulusan Peserta
             </h3>
+
+            <!-- FORM TAMBAH/EDIT PESERTA -->
             <form onsubmit="saveParticipant(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-brand-dark p-4 rounded-lg border border-brand-border">
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Kategori Pengumuman</label>
@@ -127,6 +129,18 @@
                     </button>
                 </div>
             </form>
+
+            <!-- LIST PESERTA YANG SUDAH DITAMBAHKAN -->
+            <div class="space-y-3 pt-2">
+                <div class="flex justify-between items-center">
+                    <h4 class="text-xs font-bold text-slate-300 uppercase">Daftar Peserta Terdaftar:</h4>
+                    <select id="filterDbList" onchange="renderAdminParticipants()" class="bg-brand-dark border border-brand-border text-xs text-amber-500 rounded px-2 py-1 font-bold">
+                        <option value="db_gform">Daftar G-Form</option>
+                        <option value="db_pantukhir">Daftar Pantukhir</option>
+                    </select>
+                </div>
+                <div id="admin-participant-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            </div>
         </div>
 
         <!-- FITUR 3: KELOLA HALL OF FAME -->
@@ -244,7 +258,6 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Variable penampung status kunci global di Admin
         let lockState = { lock_gform: false, lock_pantukhir: false };
 
         // AUTHENTICATION
@@ -273,7 +286,6 @@
                     alert(data.message || 'Login Gagal!');
                 }
             } catch (err) {
-                // Fallback login sederhana jika /api/login belum disiapin di backend Node.js
                 sessionStorage.setItem('admin_logged', 'true');
                 renderAdminView();
             } finally {
@@ -294,14 +306,15 @@
                 document.getElementById('admin-dashboard').classList.remove('hidden');
                 document.body.classList.remove('justify-center', 'items-center');
                 
-                listenLockSettings(); // Aktifkan listener realtime kunci
+                listenLockSettings();
+                renderAdminParticipants();
                 renderAdminGallery();
                 renderAdminHof();
                 renderAdminAnnouncements();
             }
         }
 
-        // KONTROL KUNCI FITUR (TERHUBUNG FIRESTORE REALTIME)
+        // KONTROL KUNCI FITUR
         function listenLockSettings() {
             db.collection('settings').doc('locks').onSnapshot((doc) => {
                 if (doc.exists) {
@@ -329,7 +342,7 @@
 
                 localStorage.setItem(field, newStatus.toString());
             } catch (err) {
-                alert("Gagal memperbarui status ke Firestore: " + err.message + "\n\nPastikan Rules di Firebase Console sudah diubah ke 'allow read, write: if true;'");
+                alert("Gagal memperbarui status ke Firestore: " + err.message);
             }
         }
 
@@ -346,7 +359,7 @@
             document.getElementById('btn-lock-pantukhir').innerText = pLocked ? 'Buka Akses' : 'Kunci Fitur';
         }
 
-        // SAVE PARTICIPANT
+        // KELOLA STATUS KELULUSAN PESERTA (SIMPAN & HAPUS)
         async function saveParticipant(e) {
             e.preventDefault();
             const dbName = document.getElementById('targetDb').value;
@@ -373,10 +386,69 @@
                 let localDb = JSON.parse(localStorage.getItem(dbName) || '{}');
                 localDb[username] = payload;
                 localStorage.setItem(dbName, JSON.stringify(localDb));
-                alert("Tersimpan di LocalStorage browser.");
+                alert("Tersimpan di LocalStorage.");
             } finally {
                 btn.innerText = "Simpan Data Peserta";
                 btn.disabled = false;
+                document.getElementById('filterDbList').value = dbName;
+                renderAdminParticipants();
+            }
+        }
+
+        async function renderAdminParticipants() {
+            const dbName = document.getElementById('filterDbList').value;
+            const list = document.getElementById('admin-participant-list');
+            list.innerHTML = `<div class="col-span-full text-center text-xs text-slate-400 py-2">Memuat daftar peserta...</div>`;
+
+            let items = [];
+            try {
+                const snapshot = await db.collection(dbName).get();
+                if (!snapshot.empty) {
+                    snapshot.forEach(doc => {
+                        items.push({ id: doc.id, ...doc.data() });
+                    });
+                }
+            } catch (err) {}
+
+            if (items.length === 0) {
+                let localDb = JSON.parse(localStorage.getItem(dbName) || '{}');
+                Object.keys(localDb).forEach(username => {
+                    items.push({ id: username, ...localDb[username] });
+                });
+            }
+
+            if (items.length === 0) {
+                list.innerHTML = `<div class="col-span-full text-center text-xs text-slate-500 py-2">Belum ada data peserta di kategori ini.</div>`;
+                return;
+            }
+
+            list.innerHTML = items.map(item => `
+                <div class="bg-brand-dark p-3 rounded-lg border border-brand-border flex items-center justify-between gap-2">
+                    <div class="overflow-hidden">
+                        <div class="flex items-center gap-2">
+                            <h4 class="font-bold text-xs text-white truncate">${item.id}</h4>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded font-bold ${item.status && item.status.includes('LULUS') ? 'bg-emerald-900/50 text-emerald-400 border border-emerald-800' : 'bg-rose-900/50 text-rose-400 border border-rose-800'}">${item.status}</span>
+                        </div>
+                        <p class="text-[10px] text-slate-400 truncate mt-1">NRP: ${item.nrp || '-'} | ${item.pesan || ''}</p>
+                    </div>
+                    <button onclick="deleteParticipant('${dbName}', '${item.id}')" class="bg-rose-900/80 hover:bg-rose-800 text-white p-2 rounded text-xs transition flex-shrink-0" title="Hapus Peserta">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteParticipant(dbName, username) {
+            if (confirm(`Hapus data status kelulusan untuk '${username}'?`)) {
+                try {
+                    await db.collection(dbName).doc(username).delete();
+                } catch (err) {
+                    let localDb = JSON.parse(localStorage.getItem(dbName) || '{}');
+                    delete localDb[username];
+                    localStorage.setItem(dbName, JSON.stringify(localDb));
+                }
+                alert(`Data '${username}' berhasil dihapus!`);
+                renderAdminParticipants();
             }
         }
 
